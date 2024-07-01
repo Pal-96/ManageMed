@@ -35,9 +35,9 @@ public class AddRemoveImpl extends HttpServlet {
 			if(action.equals("add") && quantity>0)
 			{
 			count=dao.insert(product, quantity);
-			System.out.println(count);
+			System.out.println("Inside add");
 			session.setAttribute("quantity", quantity);
-			response.sendRedirect("AddRemove.jsp");
+			response.sendRedirect("DisplayAll.jsp");
 			}
 			
 			else if(action.equals("remove") && quantity>0)
@@ -50,13 +50,13 @@ public class AddRemoveImpl extends HttpServlet {
 			}
 			session.setAttribute("quantity", quantity);
 			
-			response.sendRedirect("AddRemove.jsp");
+			response.sendRedirect("DisplayAll.jsp");
 			}
 			
 			else if (quantity<=0) {
 				System.out.println(quantity);
 				session.setAttribute("quantity", quantity);
-				response.sendRedirect("AddRemove.jsp");
+				response.sendRedirect("DisplayAll.jsp");
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

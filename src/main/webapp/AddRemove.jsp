@@ -15,7 +15,7 @@ backgroud-attachment: fixed;
 </style>
 </head>
 <body>
-<div style="color: white">
+<div style="color: black">
 <%
 String action=""+session.getAttribute("action");
 
@@ -36,7 +36,7 @@ if (session.getAttribute("quantity")!=null) {
 
 if(action!=null && action.equals("add") && quantity>0)
 {
- 	System.out.println("Inside");
+ 	System.out.println("Inside add");
 	out.println(session.getAttribute("quantity")+" items added to stock");
 	session.removeAttribute("quantity");
 	session.removeAttribute("action");

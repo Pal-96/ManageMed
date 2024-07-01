@@ -18,7 +18,7 @@ backgroud-attachment: fixed;
 }
 </style>
 </head>
-<div style="color: white">
+<div style="color: black">
 <body>
 
 <form action="CustomerSale.jsp" method="post">
@@ -112,7 +112,7 @@ while(rs.next())
 <b>Quantity available :</b> <%= rs.getInt(2)%>
 <br>
 </b>Quantity for Sale : </b><input type="text" size="3" name="cartquan">
-</b><input type="Submit" name="Add to Cart" value="ADD TO CART" style="cursor: pointer;"></b>
+</b><input type="Submit" name="addtocart" value="addtocart" style="cursor: pointer;"></b>
 </form>
 
 <% }}

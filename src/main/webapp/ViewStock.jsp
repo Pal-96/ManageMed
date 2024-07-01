@@ -22,7 +22,7 @@ backgroud-attachment: fixed;
 </style>
 </head>
 
-<div style="color: white">
+<div style="color: black">
 <body>
 <br>
 <form action="ViewStock.jsp" method="post">
@@ -44,7 +44,7 @@ if(request.getParameter("medname")!=null && request.getParameter("view").equals(
 %>
 
 <br>
-<TABLE height="80" width="400" border="3"  bordercolor="white" style="color: white" >
+<TABLE height="80" width="400" border="3"  bordercolor="black" style="color: black" >
 <TR>
 <TH><b>SR NO.</b></TH>
 <TH><b>PRODUCT</b></TH>

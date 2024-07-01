@@ -18,7 +18,7 @@ backgroud-attachment: fixed;
 }
 </style>
 </head>
-<div style="color: white">
+<div style="color: black">
 <body>
 <% 
 String med=""+session.getAttribute("med");
@@ -41,9 +41,9 @@ if(request.getParameter("view cart")!=null && request.getParameter("view cart").
 	ResultSet rs=dao.viewcart();
 %>
 <br><br>
-<b style="color: white;">CART ITEMS </b>
+<b style="color: black;">CART ITEMS </b>
 <br>
-<TABLE height="80" width="400" border="3"  bordercolor="white" style="color: white" >
+<TABLE height="80" width="400" border="3"  bordercolor="black" style="color: black" >
 <TR>
 <TH><b>SR NO.</b></TH>
 <TH><b>PRODUCT</b></TH>
@@ -80,9 +80,9 @@ if((request.getParameter("bill")!=null && request.getParameter("bill").equals("G
 %>
 
 <br><br>
-<b style="color: white;">ORDER SUMMARY </b>
+<b style="color: black;">ORDER SUMMARY </b>
 <br>
-<TABLE height="80" width="400" border="3"  bordercolor="white" style="color: white" >
+<TABLE height="80" width="400" border="3"  bordercolor="black" style="color: black" >
 <TR>
 <TH><b>SR NO.</b></TH>
 <TH><b>PRODUCT</b></TH>
@@ -106,9 +106,9 @@ if((request.getParameter("bill")!=null && request.getParameter("bill").equals("G
 ResultSet rs2=dao.paymentDetails();
 %>
 <br><br>
-<b style="color: white;">PAYMENT DETAILS </b>
+<b style="color: black;">PAYMENT DETAILS </b>
 <br>
-<TABLE height="80" width="400" border="3"  bordercolor="white" style="color: white" >
+<TABLE height="80" width="400" border="3"  bordercolor="black" style="color: black" >
 <TR>
 <TH><b>MRP TOTAL</b></TH>
 <TH><b>TOTAL AMOUNT</b></TH>
@@ -139,12 +139,12 @@ if(request.getParameter("proceed sale")!=null && request.getParameter("proceed s
 	
 	if(result>0)
 	{%>
-		<b style="color: white;"><%out.println("Successful Sale"); %></b>
+		<b style="color: black;"><%out.println("Successful Sale"); %></b>
 	<%}
 	
 	else if (result==0)
 	{%>
-		<b style="color: white;"><%out.println("Un Successful Sale"); %></b>
+		<b style="color: black;"><%out.println("Un Successful Sale"); %></b>
 	<%}
 	
 session.removeAttribute("generate bill");

@@ -26,8 +26,9 @@ public class MedCart extends HttpServlet {
 		// TODO Auto-generated method stub
 		
 		System.out.println("Inside MedCart");
-		//System.out.println(Integer.parseInt(request.getParameter("cartquan")));
-		if(request.getParameter("Add to Cart")!=null && (!request.getParameter("cartquan").isEmpty()))
+		System.out.println("Inside Med Cart Product:"+request.getParameter("product"));
+		System.out.println("Added?:"+request.getParameter("addtocart"));
+		if(request.getParameter("addtocart")!=null && (!request.getParameter("cartquan").isEmpty()))
 		{
 			System.out.println("Med added:"+request.getParameter("product"));
 			product=request.getParameter("product");
@@ -53,18 +54,18 @@ public class MedCart extends HttpServlet {
 				e.printStackTrace();
 			}
 			
-			response.sendRedirect("CustomerSale.jsp");
+			response.sendRedirect("DisplayAll.jsp");
 			
 		}
 		 
-		else if(request.getParameter("Add to Cart")!=null 
+		else if(request.getParameter("addtocart")!=null 
 				&& (request.getParameter("cartquan").isEmpty()))
 		{
 			
 			
 			session=request.getSession();			
 			session.setAttribute("med", "not added");
-			response.sendRedirect("CustomerSale.jsp");
+			response.sendRedirect("DisplayAll.jsp");
 			
 		}
 		
