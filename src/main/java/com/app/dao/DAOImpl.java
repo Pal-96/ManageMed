@@ -207,7 +207,9 @@ public class DAOImpl {
 			
 			if(st.executeUpdate()>0)
 			{
-				String query2="update cart set quantity=quantity+?, price=(quantity+?)*? where product=?";
+				System.out.println("Quan:"+quantity);
+				System.out.println("Price:"+price);
+				String query2="update cart set quantity=?, price=?*? where product=?";
 				st=con.prepareStatement(query2);
 				st.setInt(1, quantity);
 				st.setInt(2, quantity);
@@ -236,7 +238,7 @@ public class DAOImpl {
 			
 			System.out.println("Inside DAO");
 			String query1="select * from cart";
-			st=con.prepareStatement(query1);
+			st=con.prepareStatement(query1, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
 			
 			
 			ResultSet rs=st.executeQuery();

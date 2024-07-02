@@ -24,11 +24,36 @@
 padding-left: 10in;
 }
 
-
-
 .btn-quan {
 	width: 50px;
 	border-radius: 3mm;
 	border-color: #dee2e6;
 }
 
+.item-of-cart {
+	padding-top: 1.5rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid #e9ecef;
+    background-color: rgb(237, 237, 237);
+    border-radius: 5mm;
+    border-color: rgb(184, 184, 184);
+    height: 2cm;
+}
+
+.custrow {
+	width: 50cm;
+}
+
+.carttitle {
+	padding-left: 1cm;
+}
+
+.col-lg-8 {
+	width: 55%;
+}
+
+.cust-cont {
+	width: 95vw;
+	padding-left: 4vw;
+	padding-right: 2vw;
+}

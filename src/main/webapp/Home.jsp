@@ -66,6 +66,10 @@ response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
 									class="align-bottom bx bx-home"></i> <span class="ms-2">Dashboard</span></a></li>
 							<li class="nav-item"><a class="nav-link"
 								href="javascript:void(0);"
+								onclick="loadContent('ViewCart.jsp')"> <i
+									class="align-bottom bx bx-user"></i> <span class="ms-2">View Cart</span></a></li>
+							<li class="nav-item"><a class="nav-link"
+								href="javascript:void(0);"
 								onclick="loadContent('ViewStock.jsp')"> <i
 									class="align-bottom bx bx-user"></i> <span class="ms-2">Stock
 										Balance</span></a></li>

@@ -70,7 +70,7 @@ public class MedCart extends HttpServlet {
 		}
 		
 		
-		else if(request.getParameter("Remove from Cart")!=null)
+		else if(request.getParameter("removecart")!=null)
 		{
 			
 			
@@ -94,7 +94,7 @@ public class MedCart extends HttpServlet {
 				e.printStackTrace();
 			}
 			
-			response.sendRedirect("Bill.jsp");
+			response.sendRedirect("ViewCart.jsp");
 			
 		}
 		
