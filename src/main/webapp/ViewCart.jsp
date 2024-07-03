@@ -14,6 +14,7 @@
 	integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
 	crossorigin="anonymous">
 <link rel="stylesheet" href="./assets/css/custom.css"></link>
+
 <script
 	src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </head>
@@ -166,9 +167,10 @@
 						</div>
 						<div class="card-footer overflow-hidden p-0">
 							<div class="d-grid">
-								<a class="btn btn-primary py-3" href="checkout1.html">Proceed
-									to Checkout <i class="fa fa-chevron-right ms-2"></i>
-								</a>
+							<form action="create-checkout-session" method="POST" target="_blank" class="text-end">
+								<button type="submit" class="checkout" name="shipping"
+									value=<%=shipping%>>Checkout</button>
+							</form>
 							</div>
 						</div>
 					</div>
@@ -236,6 +238,7 @@
 			
 	        // Here you can also send the updated quantity to the server if needed
 	    }
+		
 	</script>
 
 </body>

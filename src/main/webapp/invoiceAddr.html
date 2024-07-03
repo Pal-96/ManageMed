@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+<link
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+	rel="stylesheet">
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script
+	src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script
+	src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="./assets/css/custom.css"></link>
+</head>
+<body class="mb-5 mr-5 ml-5 mt-5">
+	<h3 class="mb-4">Invoice address</h3>
+	<div class="row">
+		<div class="mb-3 col-md-6">
+			<label class="form-label" for="fullname_invoice">Full Name</label> <input
+				class="form-control" type="text" name="fullname_invoice"
+				placeholder="Joe Black" id="fullname_invoice">
+		</div>
+		<div class="mb-3 col-md-6">
+			<label class="form-label" for="emailaddress_invoice">Email
+				Address</label> <input class="form-control" type="text"
+				name="emailaddress_invoice" placeholder="joe.black@gmail.com"
+				id="emailaddress_invoice">
+		</div>
+		<div class="mb-3 col-md-6">
+			<label class="form-label" for="street_invoice">Street</label> <input
+				class="form-control" type="text" name="street_invoice"
+				placeholder="123 Main St." id="street_invoice">
+		</div>
+		<div class="mb-3 col-md-6">
+			<label class="form-label" for="city_invoice">City</label> <input
+				class="form-control" type="text" name="city_invoice"
+				placeholder="City" id="city_invoice">
+		</div>
+		<div class="mb-3 col-md-6">
+			<label class="form-label" for="zip_invoice">ZIP</label> <input
+				class="form-control" type="text" name="zip_invoice"
+				placeholder="Postal code" id="zip_invoice">
+		</div>
+		<div class="mb-3 col-md-6">
+			<label class="form-label" for="state_invoice">State</label> <input
+				class="form-control" type="text" name="state_invoice"
+				placeholder="State" id="state_invoice">
+		</div>
+		<div class="mb-3 col-md-6">
+			<label class="form-label" for="phonenumber_invoice">Phone
+				Number</label> <input class="form-control" type="text"
+				name="phonenumber_invoice" placeholder="Phone Number"
+				id="phonenumber_invoice">
+		</div>
+	</div>
+	<form action="create-checkout-session" method="POST">
+		<button class="btn btn-secondary" type="submit" id="checkout-button" onclick="handleCheckOut()">Checkout</button>
+	</form>
+	</div>
+</body>
+</html>

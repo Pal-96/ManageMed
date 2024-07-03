@@ -191,7 +191,7 @@ public class DAOImpl {
 			
 			else
 			{
-			String query4="select price from pricechart where product=?";
+			String query4="select unitprice from stock where product=?";
 			st=con.prepareStatement(query4);
 			st.setString(1, product.toUpperCase());
 			
@@ -283,7 +283,7 @@ public class DAOImpl {
 			System.out.println("Inside proceed sale");
 			
 			System.out.println("Inside DAO");
-			String query1="{call pro_cart(?)}";
+			String query1="{call checkout(?)}";
 			CallableStatement st=con.prepareCall(query1);
 			st.registerOutParameter(1, java.sql.Types.NUMERIC);
 			st.execute();	
