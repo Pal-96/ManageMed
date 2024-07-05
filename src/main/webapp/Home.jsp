@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
+<%@ page import="com.app.service.test"%>
+<%@ page import="com.app.security.*"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -16,13 +18,14 @@
 </head>
 <div style="color: black">
 	<body>
-
-
 		<center>
 			<%
-			if (session.getAttribute("username") == null) {
+			String token = test.getCookie(request);
+			String username = null;
+			if (token == null)
 				response.sendRedirect("Login.jsp");
-			} else {
+			else {
+				username = JWTUtil.getUsername(token);
 			%>
 			<jsp:include page="navbar-after-login.html" />
 			<%
@@ -30,7 +33,6 @@
 response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
 %>
 		</center>
-
 		<section class="py-lg-7 py-5 bg-light-subtle">
 		<div class="container">
 			<div class="row">
@@ -45,7 +47,7 @@ response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
 							d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1" />
 						</svg>
 						<div class="ms-3">
-							<h5 class="mb-0"><%=session.getAttribute("username")%></h5>
+							<h5 class="mb-0"><%= username%></h5>
 							<small>Personal account</small>
 						</div>
 					</div>
@@ -65,9 +67,10 @@ response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
 								onclick="loadContent('DisplayAll.jsp')"> <i
 									class="align-bottom bx bx-home"></i> <span class="ms-2">Dashboard</span></a></li>
 							<li class="nav-item"><a class="nav-link"
-								href="javascript:void(0);"
-								onclick="loadContent('ViewCart.jsp')"> <i
-									class="align-bottom bx bx-user"></i> <span class="ms-2">View Cart</span></a></li>
+								href="javascript:void(0);" onclick="loadContent('ViewCart.jsp')">
+									<i class="align-bottom bx bx-user"></i> <span class="ms-2">View
+										Cart</span>
+							</a></li>
 							<li class="nav-item"><a class="nav-link"
 								href="javascript:void(0);"
 								onclick="loadContent('ViewStock.jsp')"> <i
@@ -105,8 +108,10 @@ response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
 								</button>
 							</div>
 							<div class="col text-end">
-								<form action="DisplayAll.jsp" method="post" class="input-group mb-3" target="myIframe">
-									<input type="text" class="form-control" name="product" placeholder="Search Medicine" aria-label="Search Medicine"
+								<form action="DisplayAll.jsp" method="post"
+									class="input-group mb-3" target="myIframe">
+									<input type="text" class="form-control" name="product"
+										placeholder="Search Medicine" aria-label="Search Medicine"
 										aria-describedby="button-addon2">
 									<button class="btn btn-outline-dark" type="submit"
 										id="button-addon2">
@@ -120,10 +125,9 @@ response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
 							</div>
 						</div>
 					</div>
-					<br />
-					<br />
-					<iframe id="contentFrame" name="myIframe" class="iframe-preview" width="100%"
-						height="600px" src="DisplayAll.jsp"></iframe>
+					<br /> <br />
+					<iframe id="contentFrame" name="myIframe" class="iframe-preview"
+						width="100%" height="600px" src="DisplayAll.jsp"></iframe>
 					<!-- <iframe id="contentFrame" width="100%" height="600px" style="border:none;"></iframe> -->
 				</div>
 			</div>
@@ -149,11 +153,19 @@ response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
 								<label for="description" class="col-form-label">Description</label>
 								<textarea class="form-control" id="description"></textarea>
 							</div>
-							<div>
-								Quantity <input type="text" name="quantity">
-								<!-- <label for="Qty" class="col-form-label">Quantity</label> <input
-													name="items" type="number" class="btn-quan" name="quantity"
-													value="1"> -->
+							<div class="container mb-3">
+								<div class="row">
+									<div class="col-md-6">
+										<label for="quantity" class="col-form-label">Quantity</label>
+										<input type="text" class="form-control" id="quantity"
+											name="quantity">
+									</div>
+									<div class="col-md-6">
+										<label for="unitprice" class="col-form-label">Unit
+											Price</label> <input type="text" class="form-control" id="unitprice"
+											name="unitprice">
+									</div>
+								</div>
 							</div>
 							<div class="modal-footer">
 								<button type="button" class="btn btn-secondary"

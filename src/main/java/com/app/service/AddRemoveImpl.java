@@ -20,6 +20,7 @@ public class AddRemoveImpl extends HttpServlet {
 	private String action;
 	private int quantity;
 	private int count;
+	private int unitprice;
 	HttpSession session;
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
@@ -27,6 +28,7 @@ public class AddRemoveImpl extends HttpServlet {
 		
 		product=request.getParameter("product");
 		quantity=Integer.parseInt(request.getParameter("quantity"));
+		unitprice = Integer.parseInt(request.getParameter("unitprice"));
 		action=request.getParameter("action");
 		
 		DAOImpl dao=DAOImpl.getInstance();
@@ -34,7 +36,7 @@ public class AddRemoveImpl extends HttpServlet {
 			session.setAttribute("action", action);
 			if(action.equals("add") && quantity>0)
 			{
-			count=dao.insert(product, quantity);
+			count=dao.insert(product, quantity, unitprice);
 			System.out.println("Inside add");
 			session.setAttribute("quantity", quantity);
 			response.sendRedirect("DisplayAll.jsp");

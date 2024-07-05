@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
+	pageEncoding="ISO-8859-1"%>
+<%@ page import="com.app.service.test"%>
+<%@ page import="com.app.security.*"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -15,19 +17,19 @@
 <center>
 
 	<body>
-	<%
-
-
-if(session.getAttribute("username")==null)
-{%>
-	<jsp:include page="nav-bar-before-login.html" />
-<%}
- 
-//session.removeAttribute("username");
-else {%>
-	<jsp:include page="navbar-after-login.html" />
-
-<%} %>		<div>
+		<%
+		String token = test.getCookie(request);
+		if (token == null) {
+		%>
+		<jsp:include page="nav-bar-before-login.html" />
+		<%
+		} else {
+		%>
+		<jsp:include page="navbar-after-login.html" />
+		<%
+		}
+		%>
+		<div>
 
 			<section class="pt-6 pt-md-11">
 				<br /> <br /> <br />

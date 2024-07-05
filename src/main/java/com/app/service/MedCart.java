@@ -39,9 +39,12 @@ public class MedCart extends HttpServlet {
 				System.out.println("no stock:"+ result);
 				if(result>0)
 				{
+					int cartcount = dao.getCartCount();
+					
 					session=request.getSession();
 					session.setAttribute("med", "added");
 					session.setAttribute("quan", quantity);
+					session.setAttribute("cartcount", cartcount);
 				}
 				
 				else if(result==0||(Integer.parseInt(request.getParameter("cartquan"))<0))
@@ -83,8 +86,11 @@ public class MedCart extends HttpServlet {
 				System.out.println("no stock:"+ result);
 				if(result>0)
 				{
+					int cartcount = dao.getCartCount();
 					session=request.getSession();
 					session.setAttribute("med", "removed");
+					session.setAttribute("cartcount", cartcount);
+
 					
 				}
 				
