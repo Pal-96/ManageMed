@@ -133,6 +133,7 @@ response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
 			</div>
 		</div>
 		</section>
+		<div class="mt-5"></div>
 		<div class="modal fade" id="exampleModal" tabindex="-1"
 			aria-labelledby="exampleModalLabel" aria-hidden="true">
 			<div class="modal-dialog">
@@ -179,10 +180,8 @@ response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
 				</div>
 			</div>
 		</div>
-
-		<form action="logout" method="post">
-			<input style="cursor: pointer" type="Submit" value="Logout">
-		</form>
+		
+		<jsp:include page="footer.html" />
 
 		<script>
 			function loadContent(page) {

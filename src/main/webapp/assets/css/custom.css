@@ -72,3 +72,37 @@ padding-left: 10in;
   transition: all 0.2s ease;
   box-shadow: 0px 4px 5.5px 0px rgba(0, 0, 0, 0.07);
 }
+
+.cmt-7 {
+	padding-top: 1in;
+}
+
+.cpr-7 {
+	padding-right: 5px;
+}
+
+.display-7 {
+	font-size: large;
+	line-height: 1.2;
+}
+.display-8 {
+	font-size: medium;
+	line-height: 1;
+	font-weight: 100;
+}
+
+.pl-4 {
+	padding-left: 1.5rem;
+}
+
+.mr-4 {
+	margin-right: 3rem;
+}
+
+.mr-5 {
+	margin-right: 1.2rem;
+}
+
+.pl-6 {
+	padding-left: 25rem;
+}

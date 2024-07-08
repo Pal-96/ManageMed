@@ -13,8 +13,10 @@
 	integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
 	crossorigin="anonymous">
 <link rel="stylesheet" href="./assets/css/custom.css"></link>
+<script
+	src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </head>
-<center>
+
 
 	<body>
 		<%
@@ -67,14 +69,201 @@
 				</div>
 				<!-- / .container -->
 			</section>
-			<br /> <br /> <br /> <br /> <br />
-			<section class="py-8 py-md-11 border-bottom">
+			<section class="cmt-7">
+			<h1 class="display-3">
+				<h3 class="display-4 text-center">What we deliver</h3>
+			</h1>
+				<div id="carouselExampleAutoplaying" class="carousel slide mt-5"
+					data-bs-ride="carousel">
+					<div class="carousel-inner">
+						<div class="carousel-item active" data-bs-interval="4000">
+							<div class="container text-center">
+								<div class="row">
+									<div
+										class="col-12 col-md-4 mb-3 aos-init aos-animate border border-info border-1 rounded-pill cpr-7 bg-light"
+										data-aos="fade-up">
+
+										<!-- Icon -->
+										<div class="icon text-primary mb-2 mt-4">
+											<svg xmlns="http://www.w3.org/2000/svg" width="40"
+												height="40" fill="currentColor" class="bi bi-search"
+												viewBox="0 0 16 16">
+  <path
+													d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0" />
+</svg>
+										</div>
+
+										<!-- Heading -->
+										<h3>Find your suitable medicines</h3>
+
+										<!-- Text -->
+										<p class="text-body-secondary mb-7">Navigate our extensive
+											catalog effortlessly to find the exact medicines you need,
+											ensuring your health is always within reach.</p>
+
+									</div>
+									<div
+										class="col-12 col-md-4 aos-init aos-animate border border-info bg-light border-1 rounded-pill"
+										data-aos="fade-up" data-aos-delay="50">
+
+										<!-- Icon -->
+										<div class="icon text-primary mb-3 mt-4">
+											<svg xmlns="http://www.w3.org/2000/svg" width="40"
+												height="40" fill="currentColor"
+												class="bi bi-cart-check-fill" viewBox="0 0 16 16">
+  <path
+													d="M.5 1a.5.5 0 0 0 0 1h1.11l.401 1.607 1.498 7.985A.5.5 0 0 0 4 12h1a2 2 0 1 0 0 4 2 2 0 0 0 0-4h7a2 2 0 1 0 0 4 2 2 0 0 0 0-4h1a.5.5 0 0 0 .491-.408l1.5-8A.5.5 0 0 0 14.5 3H2.89l-.405-1.621A.5.5 0 0 0 2 1zM6 14a1 1 0 1 1-2 0 1 1 0 0 1 2 0m7 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0m-1.646-7.646-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L8 8.293l2.646-2.647a.5.5 0 0 1 .708.708" />
+</svg>
+										</div>
+
+										<!-- Heading -->
+										<h3>Manage your selections</h3>
+
+										<!-- Text -->
+										<p class="text-body-secondary mb-7">Personalize your
+											health journey by easily adding essentials and managing your
+											cart with the flexibility to adapt as your needs evolve.</p>
+
+									</div>
+									<div
+										class="col-12 col-md-4 aos-init aos-animate border border-info bg-light border-1 rounded-pill"
+										data-aos="fade-up" data-aos-delay="100">
+
+										<!-- Icon -->
+										<div class="icon text-primary mb-3 mt-4">
+											<svg xmlns="http://www.w3.org/2000/svg" width="40"
+												height="40" fill="currentColor"
+												class="bi bi-file-earmark-plus" viewBox="0 0 16 16">
+  <path
+													d="M8 6.5a.5.5 0 0 1 .5.5v1.5H10a.5.5 0 0 1 0 1H8.5V11a.5.5 0 0 1-1 0V9.5H6a.5.5 0 0 1 0-1h1.5V7a.5.5 0 0 1 .5-.5" />
+  <path
+													d="M14 4.5V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h5.5zm-3 0A1.5 1.5 0 0 1 9.5 3V1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V4.5z" />
+</svg>
+										</div>
+
+										<!-- Heading -->
+										<h3>Upload prescriptions online</h3>
+
+										<!-- Text -->
+										<p class="text-body-secondary mb-7">Simplify your
+											healthcare routine by securely uploading prescriptions
+											online, ensuring seamless access to medications from
+											anywhere.</p>
+
+									</div>
+
+								</div>
+							</div>
+						</div>
+						<div class="carousel-item" data-bs-interval="4000">
+							<div class="container text-center">
+								<div class="row">
+									<div
+										class="col-12 col-md-4 aos-init aos-animate border border-info bg-light border-1 rounded-pill"
+										data-aos="fade-up">
+
+										<!-- Icon -->
+										<div class="icon text-primary mb-4 mt-4">
+											<svg xmlns="http://www.w3.org/2000/svg" width="40"
+												height="40" fill="currentColor" class="bi bi-bag-heart"
+												viewBox="0 0 16 16">
+  <path fill-rule="evenodd"
+													d="M10.5 3.5a2.5 2.5 0 0 0-5 0V4h5zm1 0V4H15v10a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V4h3.5v-.5a3.5 3.5 0 1 1 7 0M14 14V5H2v9a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1M8 7.993c1.664-1.711 5.825 1.283 0 5.132-5.825-3.85-1.664-6.843 0-5.132" />
+</svg>
+										</div>
+
+										<!-- Heading -->
+										<h3>Seamless order processing</h3>
+
+										<!-- Text -->
+										<p class="text-body-secondary mb-7">Experience hassle-free
+											ordering with streamlined processes that ensure your
+											medications are delivered swiftly and reliably, every time.</p>
+
+									</div>
+									<div
+										class="col-12 col-md-4 aos-init aos-animate border border-info bg-light border-1 rounded-pill"
+										data-aos="fade-up">
+
+										<!-- Icon -->
+										<div class="icon text-primary mb-4 mt-4">
+											<svg xmlns="http://www.w3.org/2000/svg" width="40"
+												height="40" fill="currentColor" class="bi bi-chat-dots"
+												viewBox="0 0 16 16">
+  <path
+													d="M5 8a1 1 0 1 1-2 0 1 1 0 0 1 2 0m4 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0m3 1a1 1 0 1 0 0-2 1 1 0 0 0 0 2" />
+  <path
+													d="m2.165 15.803.02-.004c1.83-.363 2.948-.842 3.468-1.105A9 9 0 0 0 8 15c4.418 0 8-3.134 8-7s-3.582-7-8-7-8 3.134-8 7c0 1.76.743 3.37 1.97 4.6a10.4 10.4 0 0 1-.524 2.318l-.003.011a11 11 0 0 1-.244.637c-.079.186.074.394.273.362a22 22 0 0 0 .693-.125m.8-3.108a1 1 0 0 0-.287-.801C1.618 10.83 1 9.468 1 8c0-3.192 3.004-6 7-6s7 2.808 7 6-3.004 6-7 6a8 8 0 0 1-2.088-.272 1 1 0 0 0-.711.074c-.387.196-1.24.57-2.634.893a11 11 0 0 0 .398-2" />
+</svg>
+										</div>
+
+										<!-- Heading -->
+										<h3>Share candid feedbacks</h3>
+
+										<!-- Text -->
+										<p class="text-body-secondary mb-7">Sharing your valuable
+											insights, shaping a trusted environment where your voice
+											helps us continually improve our services.</p>
+
+									</div>
+									<div
+										class="col-12 col-md-4 mb-3 aos-init aos-animate border border-info bg-light border-1 rounded-pill cpr-7"
+										data-aos="fade-up">
+
+										<!-- Icon -->
+										<div class="icon text-primary mb-2 mt-4">
+											<svg xmlns="http://www.w3.org/2000/svg" width="40"
+												height="40" fill="currentColor" class="bi bi-search"
+												viewBox="0 0 16 16">
+  <path
+													d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0" />
+</svg>
+										</div>
+
+										<!-- Heading -->
+										<h3>Find your suitable medicines</h3>
+
+										<!-- Text -->
+										<p class="text-body-secondary mb-7">Navigate our extensive
+											catalog effortlessly to find the exact medicines you need,
+											ensuring your health is always within reach.</p>
+
+									</div>
+
+
+								</div>
+
+								<!-- / .row -->
+							</div>
+						</div>
+
+
+					</div>
+					<button class="carousel-control-prev" type="button"
+						data-bs-target="carouselExampleAutoplaying" data-bs-slide="prev">
+						<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+						<span class="visually-hidden">Previous</span>
+					</button>
+					<button class="carousel-control-next" type="button"
+						data-bs-target="carouselExampleAutoplaying" data-bs-slide="next">
+						<span class="carousel-control-next-icon" aria-hidden="true"></span>
+						<span class="visually-hidden">Next</span>
+					</button>
+				</div>
+			</section>
+			<section class="cmt-7">
+			<h1 class="display-3">
+				<h3 class="display-4 text-center">Our Impact</h3>
+			</h1>
+			</section>
+
+			<!-- <section class="py-8 py-md-11 border-bottom">
 				<div class="container">
 					<div class="row">
 						<div class="col-12 col-md-4 aos-init aos-animate"
 							data-aos="fade-up">
 
-							<!-- Icon -->
+							Icon
 							<div class="icon text-primary mb-4">
 								<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40"
 									fill="currentColor" class="bi bi-plus-slash-minus"
@@ -84,10 +273,10 @@
 </svg>
 							</div>
 
-							<!-- Heading -->
+							Heading
 							<h3>Manage medicine stock</h3>
 
-							<!-- Text -->
+							Text
 							<p class="text-body-secondary mb-6 mb-md-0">Landkit is built
 								to make your life easier. Variables, build tooling,
 								documentation, and reusable components.</p>
@@ -96,7 +285,7 @@
 						<div class="col-12 col-md-4 aos-init aos-animate"
 							data-aos="fade-up" data-aos-delay="50">
 
-							<!-- Icon -->
+							Icon
 							<div class="icon text-primary mb-3">
 								<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40"
 									fill="currentColor" class="bi bi-clipboard2-check"
@@ -110,10 +299,10 @@
 </svg>
 							</div>
 
-							<!-- Heading -->
+							Heading
 							<h3>Check stock balance</h3>
 
-							<!-- Text -->
+							Text
 							<p class="text-body-secondary mb-6 mb-md-0">Designed with the
 								latest design trends in mind. Landkit feels modern, minimal, and
 								beautiful.</p>
@@ -122,7 +311,7 @@
 						<div class="col-12 col-md-4 aos-init aos-animate"
 							data-aos="fade-up" data-aos-delay="100">
 
-							<!-- Icon -->
+							Icon
 							<div class="icon text-primary mb-3">
 								<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40"
 									fill="currentColor" class="bi bi-cart-check-fill"
@@ -132,10 +321,10 @@
 </svg>
 							</div>
 
-							<!-- Heading -->
+							Heading
 							<h3>Add or Delete from cart</h3>
 
-							<!-- Text -->
+							Text
 							<p class="text-body-secondary mb-0">We've written extensive
 								documentation for components and tools, so you never have to
 								reverse engineer anything.</p>
@@ -149,7 +338,7 @@
 						<div class="col-12 col-md-4 aos-init aos-animate"
 							data-aos="fade-up" data-aos-delay="100">
 
-							<!-- Icon -->
+							Icon
 							<div class="icon text-primary mb-3">
 								<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40"
 									fill="currentColor" class="bi bi-list-check"
@@ -159,20 +348,21 @@
 </svg>
 							</div>
 
-							<!-- Heading -->
+							Heading
 							<h3>Seamless checkout</h3>
 
-							<!-- Text -->
+							Text
 							<p class="text-body-secondary mb-0">We've written extensive
 								documentation for components and tools, so you never have to
 								reverse engineer anything.</p>
 
 						</div>
 					</div>
-					<!-- / .row -->
+					/ .row
 				</div>
-				<!-- / .container -->
-			</section>
+				/ .container
+			</section> -->
+			<jsp:include page="footer.html" />
 	</body>
-</center>
+
 </html>
