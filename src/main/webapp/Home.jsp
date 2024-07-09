@@ -97,7 +97,7 @@ response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
 						<div class="row">
 							<div class="col text-start">
 								<button type="button" class="btn btn-outline-dark"
-									data-bs-toggle="modal" data-bs-target="#exampleModal"
+									data-bs-toggle="modal" data-bs-target="#addModel"
 									data-bs-whatever="@mdo">
 									New Item
 									<svg xmlns="http://www.w3.org/2000/svg" width="30" height="30"
@@ -134,7 +134,7 @@ response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
 		</div>
 		</section>
 		<div class="mt-5"></div>
-		<div class="modal fade" id="exampleModal" tabindex="-1"
+		<div class="modal fade" id="addModel" tabindex="-1"
 			aria-labelledby="exampleModalLabel" aria-hidden="true">
 			<div class="modal-dialog">
 				<div class="modal-content">
@@ -152,7 +152,7 @@ response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
 							</div>
 							<div class="mb-3">
 								<label for="description" class="col-form-label">Description</label>
-								<textarea class="form-control" id="description"></textarea>
+								<textarea class="form-control" id="description" name="description"></textarea>
 							</div>
 							<div class="container mb-3">
 								<div class="row">

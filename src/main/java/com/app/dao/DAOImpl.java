@@ -13,6 +13,7 @@ import java.util.Properties;
 import org.mindrot.jbcrypt.BCrypt;
 
 import com.app.model.Person;
+import com.app.model.Product;
 import com.app.security.PasswordUtil;
 
 import oracle.jdbc.driver.*;
@@ -111,24 +112,25 @@ public class DAOImpl {
 		return result;
 	}
 
-	public int insert(String product, int quantity, int unitprice) throws SQLException {
+	public int insert(Product product) throws SQLException {
 		System.out.println("Inside DAO");
 		String query1 = "select * from stock where product=?";
 		st = con.prepareStatement(query1);
-		st.setString(1, product.toUpperCase());
+		st.setString(1, product.getProduct().toUpperCase());
 
 		if (st.executeUpdate() > 0) {
 			String query2 = "update stock set quantity=quantity+? where product=?";
 			st = con.prepareStatement(query2);
-			st.setInt(1, quantity);
-			st.setString(2, product.toUpperCase());
+			st.setInt(1, product.getQuantity());
+			st.setString(2, product.getProduct().toUpperCase());
 		} else {
-			String query3 = "insert into stock values (?,?,?)";
+			String query3 = "insert into stock values (?,?,?,?)";
 
 			st = con.prepareStatement(query3);
-			st.setString(1, product.toUpperCase());
-			st.setInt(2, quantity);
-			st.setInt(3, unitprice);
+			st.setString(1, product.getProduct().toUpperCase());
+			st.setInt(2, product.getQuantity());
+			st.setInt(3, product.getUnitprice());
+			st.setString(4, product.getDescription());
 		}
 
 		return st.executeUpdate();
@@ -324,14 +326,40 @@ public class DAOImpl {
 		return row_exist;
 	}
 
-	public ResultSet deletestock(String product) throws SQLException {
+	public int deletestock(String product) throws SQLException {
 		System.out.println("Inside delete stock");
 		String query2 = "delete from stock where product=?";
 		st = con.prepareStatement(query2);
 		st.setString(1, product.toUpperCase());
-		ResultSet rs = st.executeQuery();
+		int count = st.executeUpdate();
 
-		return rs;
+		return count;
+
+	}
+	
+	public int update(String product, int quantity, int unitprice, String description) throws SQLException {
+		System.out.println("Inside Update DAO");
+		System.out.print(product);
+		String query1 = "select * from stock where product=?";
+		st = con.prepareStatement(query1);
+		st.setString(1, product);
+		ResultSet rs = st.executeQuery();
+		System.out.println(rs);
+		int count = 0;
+
+		if (rs.next()) {
+			System.out.println("Update medicine in stock");
+			String query2 = "update stock set quantity=?, unitprice=?, description=? where product=?";
+			st = con.prepareStatement(query2);
+			st.setInt(1, quantity);
+			st.setInt(2, unitprice);
+			st.setString(3, description);
+			st.setString(4, product);
+			count = st.executeUpdate();
+			System.out.print("Count of update:" + count);
+		} 
+
+		return count;
 
 	}
 

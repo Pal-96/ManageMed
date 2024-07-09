@@ -4,6 +4,8 @@ public class Product {
 
 	private String product;
 	private int quantity;
+	private int unitprice;
+	private String description;
 	public String getProduct() {
 		return product;
 	}
@@ -16,10 +18,19 @@ public class Product {
 	public void setQuantity(int quantity) {
 		this.quantity = quantity;
 	}
-	@Override
-	public String toString() {
-		return "Product [product=" + product + ", quantity=" + quantity + "]";
+	public int getUnitprice() {
+		return unitprice;
 	}
+	public void setUnitprice(int unitprice) {
+		this.unitprice = unitprice;
+	}
+	public String getDescription() {
+		return description;
+	}
+	public void setDescription(String description) {
+		this.description = description;
+	}
+	
 	
 	
 	
