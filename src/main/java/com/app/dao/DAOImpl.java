@@ -4,6 +4,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -189,7 +190,7 @@ public class DAOImpl {
 
 	}
 
-	public int addcart(String product, int quantity) throws SQLException {
+	public int addcart(String product, int quantity, String username) throws SQLException {
 		System.out.println("Inside add cart");
 
 		System.out.println("Inside DAO");
@@ -213,38 +214,44 @@ public class DAOImpl {
 				price = rs.getInt(1);
 			}
 
-			String query1 = "select product from cart where product=?";
+			String query1 = "select product from cart where product=? and username=? and order_id is null";
 			st = con.prepareStatement(query1);
 			st.setString(1, product.toUpperCase());
+			st.setString(2, username);
 
 			if (st.executeUpdate() > 0) {
 				System.out.println("Quan:" + quantity);
 				System.out.println("Price:" + price);
-				String query2 = "update cart set quantity=?, price=?*? where product=?";
+				String query2 = "update cart set quantity=?, price=?*? where product=? and username=? and order_id is null";
 				st = con.prepareStatement(query2);
 				st.setInt(1, quantity);
 				st.setInt(2, quantity);
 				st.setInt(3, price);
 				st.setString(4, product.toUpperCase());
+				st.setString(5, username);
 
 			} else {
-				String query3 = "insert into cart values (?,?,?)";
+				String query3 = "insert into cart (product, quantity, price, username) values (?,?,?,?)";
+				System.out.println("Loged in:"+username);
 				st = con.prepareStatement(query3);
 				st.setString(1, product.toUpperCase());
 				st.setInt(2, quantity);
 				st.setInt(3, price * quantity);
+				st.setString(4, username);
 			}
 
 			return st.executeUpdate();
 		}
 	}
 
-	public ResultSet viewcart() throws SQLException {
+	public ResultSet viewcart(String username) throws SQLException {
 		System.out.println("Inside viewcart");
 
-		System.out.println("Inside DAO");
-		String query1 = "select * from cart";
+		System.out.println("Inside DAO logged in by:"+username);
+		String query1 = "select * from cart where username=? and (cart_status = ? OR cart_status is null) and order_id is null";
 		st = con.prepareStatement(query1, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+		st.setString(1, username);
+		st.setString(2, "RESERVED");
 
 		ResultSet rs = st.executeQuery();
 
@@ -252,9 +259,9 @@ public class DAOImpl {
 
 	}
 
-	public int getCartCount() throws SQLException {
+	public int getCartCount(String username) throws SQLException {
 		int count = 0;
-		ResultSet rs = viewcart();
+		ResultSet rs = viewcart(username);
 		if (rs.last()) {
 			count = rs.getRow(); // Get the row number which is the count of rows
 			rs.beforeFirst(); // Move the cursor back to the beginning
@@ -274,31 +281,74 @@ public class DAOImpl {
 		return rs;
 
 	}
+	
+	public int getCheckoutPrice(String username) throws SQLException {
+		int count = 0;
+		ResultSet rs = paymentDetails(username);
+		if (rs.next()) {
+			count = rs.getInt(1);
+		}
+		return count;
+	}
 
-	public ResultSet paymentDetails() throws SQLException {
+	public ResultSet paymentDetails(String username) throws SQLException {
 		System.out.println("Inside payment");
 
 		System.out.println("Inside DAO");
-		String query1 = "select SUM(PRICE) from cart";
+		String query1 = "select SUM(PRICE) from cart where username = ? and order_id is null and cart_status is null";
 		st = con.prepareStatement(query1);
+		st.setString(1, username);
 
 		ResultSet rs = st.executeQuery();
 
 		return rs;
 
 	}
+	
+	public int proceedPayment(LocalDate date, String username) throws SQLException {
+		String query1 = "select order_id from ORDERTB where order_status=? and username=?";
+		st = con.prepareStatement(query1);
+		st.setString(1, "PENDING");
+		st.setString(2, username);
+		ResultSet rs = st.executeQuery();
+		if (rs.next()) {
+			int order_id = rs.getInt(1);
+			String query2 = "select payment_id from payment where order_id = ?";
+			st=con.prepareStatement(query2);
+			st.setInt(1, order_id);
+			if (st.executeQuery().next()) {
+				String query4 = "update payment set payment_date=? where order_id=?";
+				st = con.prepareStatement(query4);
+				st.setObject(1, date);
+				st.setInt(2, order_id);
+			}
+			
+			else {
+			String query3 = "insert into payment (order_id, payment_mode, payment_date, payment_status) values (?,?,?,? )";
+			st = con.prepareStatement(query3);
+			st.setInt(1, order_id);
+			st.setString(2, "CARD");
+			st.setObject(3, date);
+			st.setString(4, "PENDING");
+			}
+		}
+		
+		return st.executeUpdate();
+	}
 
-	public int proceedSale() throws SQLException {
+	public int proceedSale(String username) throws SQLException {
 		System.out.println("Inside proceed sale");
 
 		System.out.println("Inside DAO");
-		String query1 = "{call checkout(?)}";
+		String query1 = "{call payment_checkout(?,?)}";
 		CallableStatement st = con.prepareCall(query1);
-		st.registerOutParameter(1, java.sql.Types.NUMERIC);
+		st.setString(1, username);
+		st.registerOutParameter(2, java.sql.Types.NUMERIC);
+		
 		st.execute();
 
-		System.out.println(st.getInt(1));
-		return st.getInt(1);
+		System.out.println(st.getInt(2));
+		return st.getInt(2);
 
 	}
 
@@ -362,5 +412,123 @@ public class DAOImpl {
 		return count;
 
 	}
+	
+	public int createOrder(String username, int orderQty, String orderStatus, LocalDate date) throws SQLException {
+		int result = 0;
+		String query1 = "select * from ordertb where username = ? and order_status=?";
+		st = con.prepareStatement(query1);
+		st.setString(1, username);
+		st.setString(2, "PENDING");
+		ResultSet rs = st.executeQuery();
+		if (rs.next()) {
+			String query2 = "update ORDERTB set order_qty=?, order_date=? where username=?";
+			st = con.prepareStatement(query2);
+			st.setInt(1, orderQty);
+			st.setObject(2, date);
+			st.setString(3, username);
+			result = st.executeUpdate();
+		}
+		else {
+		String query3 = "insert into ORDERTB (username, order_qty, order_status, order_date) values (?,?,?,?)";
+		st = con.prepareStatement(query3);
+		st.setString(1, username);
+		st.setInt(2, orderQty);
+		st.setString(3, orderStatus);
+		st.setObject(4, date);
+		result = st.executeUpdate();
+		}
+		
+		return result;
+		
+	}
+	
+	public void reserveCart(String username) throws SQLException {
+		System.out.println("Inside reserve cart");
+
+		System.out.println("Inside DAO");
+		String query1 = "select quantity, product from cart where username=? and order_id is null";
+		st = con.prepareStatement(query1);
+		st.setString(1, username);
+		ResultSet rs = st.executeQuery();
+		
+		while (rs.next()) {
+			int cartQuantity = rs.getInt(1);
+			String product = rs.getString(2);
+			String query2 = "select quantity from stock where product=?";
+			st = con.prepareStatement(query2);
+			st.setString(1, product);
+			ResultSet rs2 = st.executeQuery();
+			if (rs2.next()) {
+				int stockQuantity = rs2.getInt(1);
+				if (stockQuantity>cartQuantity) {
+					String query3 = "update stock set quantity = quantity - ? where product = ?";
+					st = con.prepareStatement(query3);
+					st.setInt(1, cartQuantity);
+					st.setString(2, product);
+					st.executeUpdate();
+					String query4 = "update cart set cart_status=? where username=? and product=? and cart_status is null";
+					st = con.prepareStatement(query4);
+					st.setString(1, "RESERVED");
+					st.setString(2, username);
+					st.setString(3, product);
+					st.executeUpdate();
+					
+				}
+				
+				else {
+					String query5 = "update cart set cart_status=? where username=? and product=? and cart_status is null";
+					st = con.prepareStatement(query5);
+					st.setString(1, "UNAVAILABLE");
+					st.setString(2, username);
+					st.setString(3, product);
+					st.executeUpdate();
+					
+				}
+			}
+		}
+				
+
+	}
+	
+	public void restoreStock(String username) throws SQLException {
+		System.out.println("Inside restore stock");
+		System.out.println("Inside DAO");
+		String query1 = "select quantity, product from cart where username=? and order_id is null and cart_status=?";
+		st = con.prepareStatement(query1);
+		st.setString(1, username);
+		st.setString(2, "RESERVED");
+		ResultSet rs = st.executeQuery();
+		
+		while (rs.next()) {
+			int cartQuantity = rs.getInt(1);
+			String product = rs.getString(2);
+			String query2 = "update stock set quantity = quantity + ? where product=?";
+			st = con.prepareStatement(query2);
+			st.setInt(1, cartQuantity);
+			st.setString(2, product);
+			st.executeUpdate();
+			
+			String query3 = "update cart set cart_status = null where username = ? and product=? and cart_status in (?,?)";
+			st = con.prepareStatement(query3);
+			st.setString(1, username);
+			st.setString(2, product);
+			st.setString(3, "RESERVED");
+			st.setString(4, "UNAVAILABLE");
+			st.executeUpdate();
+		}
+			
+	}
+	
+	public ResultSet checkAvail(String username ) throws SQLException {
+		String query1 = "select product, quantity from cart where username=? and cart_status=?";
+		st = con.prepareStatement(query1);
+		st.setString(1, username);
+		st.setString(2, "UNAVAILABLE");
+		ResultSet rs = st.executeQuery();
+		return rs;
+	}
+		
 
 }
+
+

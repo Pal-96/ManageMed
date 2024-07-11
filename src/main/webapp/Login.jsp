@@ -12,7 +12,7 @@
 	crossorigin="anonymous">
 <link rel="stylesheet" href="./assets/css/custom.css"></link>
 </head>
-<nav class="navbar navbar-expand-lg navbar-light w-100"
+<!-- <nav class="navbar navbar-expand-lg navbar-light w-100"
 	style="border-bottom: 2px solid grey">
 <div class="container">
 	<a class="navbar-brand" href="Welcome.jsp"><img
@@ -40,8 +40,10 @@
 		</div>
 	</div>
 </div>
-</nav>
+</nav> -->
 <body>
+
+<jsp:include page="nav-bar-before-login.html" />
 	
 	<div class="container container-login">
 		<div class="row">

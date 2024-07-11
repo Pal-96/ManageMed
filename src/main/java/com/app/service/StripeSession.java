@@ -10,12 +10,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.app.dao.DAOImpl;
+import com.app.security.JWTUtil;
 import com.stripe.Stripe;
 import com.stripe.exception.StripeException;
 import com.stripe.model.checkout.Session;
 import com.stripe.param.checkout.SessionCreateParams;
 import java.util.Properties;
 import java.sql.*;
+import java.time.LocalDate;
 
 /**
  * Servlet implementation class StripeSession
@@ -28,6 +30,10 @@ public class StripeSession extends HttpServlet {
 	 */
 	private Properties dbProperties;
 	private String domainUrl;
+	private String username = null;
+	private String token = null;
+	private DAOImpl dao;
+	private ResultSet rs;
 
 	public StripeSession() {
 		super();
@@ -48,14 +54,28 @@ public class StripeSession extends HttpServlet {
 			throws ServletException, IOException {
 		
 		try {
-			DAOImpl dao = DAOImpl.getInstance();
-			ResultSet rs = dao.viewcart();
+			token = test.getCookie(request);
+			username = JWTUtil.getUsername(token);
+			LocalDate currentDate = LocalDate.now();
+			dao = DAOImpl.getInstance();
+			dao.reserveCart(username);
 			int shippingprice = Integer.parseInt(request.getParameter("shipping"));
+			rs = dao.viewcart(username);
+			
+			
+			if (rs !=null) {
+				int orderQty = dao.getCartCount(username);
+				int orderPrice = dao.getCheckoutPrice(username);
+				String orderStatus = "PENDING";
+				dao.createOrder(username, orderQty, orderStatus, currentDate);
+				dao.proceedPayment(currentDate, username);
+				
+			}
 
 			SessionCreateParams.Builder paramsBuilder = SessionCreateParams.builder()
 					.setMode(SessionCreateParams.Mode.PAYMENT)
 					.setSuccessUrl(domainUrl + "/success.jsp")
-					.setCancelUrl(domainUrl + "/cancel.html");
+					.setCancelUrl(domainUrl + "/cancel.jsp");
 			while (rs.next()) {
 				String productName = rs.getString(1);
 				int quantity = rs.getInt(2);
@@ -81,6 +101,10 @@ public class StripeSession extends HttpServlet {
 											.setName("Shipping Price").build())
 									.build())
 							.build());
+			
+			paramsBuilder.putMetadata("unavailable_items_message",
+					"If you see an item missing, it means it's currently unavailable. Please go back and re-check.");
+			
 			SessionCreateParams params = paramsBuilder.build();
 			Session session = Session.create(params);
 			response.sendRedirect(session.getUrl());

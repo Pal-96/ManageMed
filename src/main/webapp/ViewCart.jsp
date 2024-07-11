@@ -4,6 +4,7 @@
 <%@ page import="com.app.dao.*"%>
 <%@ page import="java.sql.*"%>
 <%@ page import="com.app.service.*"%>
+<%@ page import="com.app.security.*"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -26,16 +27,18 @@
 	if (token == null)
 		response.sendRedirect("Login.jsp");
 	else {
-
+		String username = JWTUtil.getUsername(token);
 		int total = 0;
-		int shipping = 50;
+		int shipping = 0;
 		int stock = 1;
 		DAOImpl dao = DAOImpl.getInstance();
-		ResultSet rs = dao.viewcart();
-		int rowCount = dao.getCartCount();
-		ResultSet rs1 = dao.paymentDetails();
+		ResultSet rs = dao.viewcart(username);
+		int rowCount = dao.getCartCount(username);
+		ResultSet rs1 = dao.paymentDetails(username);
 		if (rs1.next()) {
 			total = rs1.getInt(1);
+			if (total > 0)
+		shipping = 50;
 		}
 		cartcount = "" + session.getAttribute("cartcount");
 	%>
@@ -58,7 +61,7 @@
 				<div class="col-lg-8 pe-xl-5">
 					<%
 					while (rs.next()) {
-						ResultSet rs2 = dao.paymentDetails();
+						ResultSet rs2 = dao.paymentDetails(username);
 						rs2 = dao.display(rs.getString(1));
 						if (rs2.next()) {
 							stock = rs2.getInt(2);
@@ -92,81 +95,81 @@
 											</div>
 										</div>
 									</div>
-												<div class="col-md-3">
-													<div class="row">
-														<div class="col-6 d-md-none text-muted">Total price</div>
-														<div class="col-6 col-md-12 text-end text-md-center">
-															<b>$<%=rs.getInt(3)%></b>
-														</div>
-													</div>
-												</div>
-												<div class="col-2 d-none d-md-block text-end">
-													<a class="cart-remove text-muted text-end btn"
-														onclick="handleRemoveCart(this)"> <svg
-															xmlns="http://www.w3.org/2000/svg" width="20" height="20"
-															fill="currentColor" class="bi bi-x-circle"
-															viewBox="0 0 16 16">
-  <path
-																d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
-  <path
-																d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708" />
-</svg>
-													</a>
-												</div>
+									<div class="col-md-3">
+										<div class="row">
+											<div class="col-6 d-md-none text-muted">Total price</div>
+											<div class="col-6 col-md-12 text-end text-md-center">
+												<b>$<%=rs.getInt(3)%></b>
 											</div>
 										</div>
-
+									</div>
+									<div class="col-2 d-none d-md-block text-end">
+										<a class="cart-remove text-muted text-end btn"
+											onclick="handleRemoveCart(this)"> <svg
+												xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+												fill="currentColor" class="bi bi-x-circle"
+												viewBox="0 0 16 16">
+  <path
+													d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
+  <path
+													d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708" />
+</svg>
+										</a>
 									</div>
 								</div>
-								<%
-								}
-								%>
 							</div>
-							<div class="col">
-								<div class="card mb-5">
-									<div class="card-header">
-										<h6 class="mb-0">Order Summary</h6>
-									</div>
-									<div class="card-body py-4">
-										<p class="text-muted text-sm">Shipping and additional
-											costs applied.</p>
-										<table class="table card-text">
-											<tbody>
-												<tr>
-													<th class="py-4">Order Subtotal</th>
-													<td class="py-4 text-end text-muted">$<%=total%>.00
-													</td>
-												</tr>
-												<tr>
-													<th class="py-4">Shipping and handling</th>
-													<td class="py-4 text-end text-muted">$<%=shipping%>.00
-													</td>
-												</tr>
-												<tr>
-													<th class="py-4">Tax</th>
-													<td class="py-4 text-end text-muted">$0.00</td>
-												</tr>
-												<tr>
-													<th class="pt-4 border-0">Total</th>
-													<td class="pt-4 text-end h3 fw-normal border-0">$<%=total + shipping%>.00
-													</td>
-												</tr>
-											</tbody>
-										</table>
-									</div>
-									<div class="card-footer overflow-hidden p-0">
-										<div class="d-grid">
-											<form action="create-checkout-session" method="POST"
-												target="_blank" class="text-end">
-												<button type="submit" class="checkout" name="shipping"
-													value=<%=shipping%>>Checkout</button>
-											</form>
-										</div>
-									</div>
-								</div>
+
+						</div>
+					</div>
+					<%
+					}
+					%>
+				</div>
+				<div class="col">
+					<div class="card mb-5">
+						<div class="card-header">
+							<h6 class="mb-0">Order Summary</h6>
+						</div>
+						<div class="card-body py-4">
+							<p class="text-muted text-sm">Shipping and additional costs
+								applied.</p>
+							<table class="table card-text">
+								<tbody>
+									<tr>
+										<th class="py-4">Order Subtotal</th>
+										<td class="py-4 text-end text-muted">$<%=total%>.00
+										</td>
+									</tr>
+									<tr>
+										<th class="py-4">Shipping and handling</th>
+										<td class="py-4 text-end text-muted">$<%=shipping%>.00
+										</td>
+									</tr>
+									<tr>
+										<th class="py-4">Tax</th>
+										<td class="py-4 text-end text-muted">$0.00</td>
+									</tr>
+									<tr>
+										<th class="pt-4 border-0">Total</th>
+										<td class="pt-4 text-end h3 fw-normal border-0">$<%=total + shipping%>.00
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+						<div class="card-footer overflow-hidden p-0">
+							<div class="d-grid">
+								<form action="create-checkout-session" method="POST"
+									target="_blank" class="text-end">
+									<button type="submit" class="checkout" name="shipping"
+										value=<%=shipping%>>Checkout</button>
+								</form>
 							</div>
 						</div>
 					</div>
+				</div>
+			</div>
+		</div>
 	</section>
 	<script>
 	var cart = "<%=rowCount%>";

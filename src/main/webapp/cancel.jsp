@@ -1,9 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
-	<%@ page import="com.app.dao.*"%>
+    pageEncoding="ISO-8859-1"%>
+    <%@ page import="com.app.dao.*"%>
 	<%@ page import="com.app.service.*"%>
 	<%@ page import="com.app.security.*"%>
-<%@ page import="java.sql.*"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -12,21 +11,19 @@
 <link rel="stylesheet" href="./assets/css/stripe-style.css">
 </head>
 <body>
-	<%
+<%
 	DAOImpl dao = DAOImpl.getInstance();
 	String token = test.getCookie(request);
 	String username = JWTUtil.getUsername(token);
-	int result = dao.proceedSale(username);
+	dao.restoreStock(username);
 	%>
-	<section>
-		<p>Your payment is successful. We appreciate your business! If you
-			have any questions, please email below.</p>
-		<p>
-			<a href="mailto:orders@example.com">pal.sayantika26@gmail.com</a>
-		</p>
-		<form action="Home.jsp" method="post">
+	
+<section>
+    <p>Forgot to add something to your cart? Shop around then come back to pay!</p>
+    <form action="Home.jsp" method="post">
 			<button type="submit">Home</button>
 		</form>
-	</section>
+  </section>
+
 </body>
 </html>

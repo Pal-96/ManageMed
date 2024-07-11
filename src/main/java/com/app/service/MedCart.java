@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.app.dao.DAOImpl;
+import com.app.security.JWTUtil;
 
 /**
  * Servlet implementation class MedCart
@@ -21,6 +22,8 @@ public class MedCart extends HttpServlet {
 	private String product;
 	private int result;
 	HttpSession session;
+	private String token;
+	private String username; 
 	
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
@@ -33,13 +36,16 @@ public class MedCart extends HttpServlet {
 			System.out.println("Med added:"+request.getParameter("product"));
 			product=request.getParameter("product");
 			quantity=Integer.parseInt(request.getParameter("cartquan"));
+			token = test.getCookie(request);
+			username = JWTUtil.getUsername(token);
+			System.out.println("Inside Med Cart logged in by:"+username);
 			DAOImpl dao=DAOImpl.getInstance();
 			try {
-				result=dao.addcart(product, quantity);
+				result=dao.addcart(product, quantity, username);
 				System.out.println("no stock:"+ result);
 				if(result>0)
 				{
-					int cartcount = dao.getCartCount();
+					int cartcount = dao.getCartCount(username);
 					
 					session=request.getSession();
 					session.setAttribute("med", "added");
@@ -86,7 +92,7 @@ public class MedCart extends HttpServlet {
 				System.out.println("no stock:"+ result);
 				if(result>0)
 				{
-					int cartcount = dao.getCartCount();
+					int cartcount = dao.getCartCount(username);
 					session=request.getSession();
 					session.setAttribute("med", "removed");
 					session.setAttribute("cartcount", cartcount);
