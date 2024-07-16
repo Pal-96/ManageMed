@@ -12,7 +12,7 @@
 	crossorigin="anonymous">
 <link rel="stylesheet" href="./assets/css/custom.css"></link>
 </head>
-<nav class="navbar navbar-expand-lg navbar-light w-100"
+<!-- <nav class="navbar navbar-expand-lg navbar-light w-100"
 	style="border-bottom: 2px solid grey">
 <div class="container">
 	<a class="navbar-brand" href="Login.html"><img
@@ -40,14 +40,15 @@
 		</div>
 	</div>
 </div>
-</nav>
+</nav> -->
 <div>
 	<body>
+	<jsp:include page="nav-bar-before-login.html" />
 		<div class="container container-login">
 			<div class="row">
 				<div class="col container-login">
-					<img src="assets/images/Welcome.jpg"
-						class="img-fluid placement rounded float-left text-center"
+					<img src="assets/images/Welcome2.jpg"
+						class="img-fluid placement rounded float-left text-center welcomeimg"
 						alt="Responsive image">
 				</div>
 				<div class="card shadow-sm col container-login mb-6">
@@ -62,40 +63,41 @@
 						<form action="register" method="post"
 							class="needs-validation placement-register" novalidate="">
 							<div class="mb-2">
-								<label for="frstname" class="form-label"> First Name <span
+								<label for="firstname" class="form-label"> First Name <span
 									class="text-danger">*</span>
-								</label> <input type="text" class="form-control" id="frstname"
-									name="frstname" required="">
+								</label> <input type="text" class="form-control" id="firstname"
+									name="firstname" required>
 								<div class="invalid-feedback">Please enter first name.</div>
 							</div>
 							<div class="mb-2">
 								<label for="lastname" class="form-label"> Last Name <span
 									class="text-danger">*</span>
 								</label> <input type="text" class="form-control" id="lastname"
-									name="lastname" required="">
+									name="lastname" required>
 								<div class="invalid-feedback">Please enter last name.</div>
 							</div>
 							<div class="mb-2">
 								<label for="username" class="form-label"> UserName <span
 									class="text-danger">*</span>
 								</label> <input type="text" class="form-control" id="username"
-									name="username" required="">
+									name="username" required>
 								<div class="invalid-feedback">Please enter user name.</div>
 							</div>
 							<div class="mb-2">
 								<label for="formSignUpPassword" class="form-label">Password</label>
 								<div class="password-field position-relative">
 									<input type="password" class="form-control fakePassword"
-										id="formSignUpPassword" name="password" required=""> <span><i
+										id="formSignUpPassword" name="password" required> <span><i
 										class="bi bi-eye-slash passwordToggler"></i></span>
 									<div class="invalid-feedback">Please enter password.</div>
 								</div>
 							</div>
 
 							<div class="d-grid">
-								<button class="btn btn-primary" type="submit">Sign Up</button>
+								<button class="btn btn-primary" type="submit" name="action" id="action"
+								value="register">Sign Up</button>
 							</div>
-							<p class="mt-3 text-muted">© 2024</p>
+							<p class="mt-3 text-muted">Copyrights &copy;2024. Built by Sayantika Pal</p>
 						</form>
 
 

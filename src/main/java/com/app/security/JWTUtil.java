@@ -9,25 +9,19 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class JWTUtil {
-    private static final String SECRET_KEY = "your_secret_key";
-    private static final long EXPIRATION_TIME = 86400000; // 1 day in milliseconds
+	private static final String SECRET_KEY = "your_secret_key";
+	private static final long EXPIRATION_TIME = 86400000; // 1 day in milliseconds
 
-    public static String generateToken(String username) {
-    	Map<String,Object> claims = new HashMap();
-        return Jwts.builder()
-        		.setClaims(claims)
-                .setSubject(username)
-                .setIssuedAt(new Date())
-                .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
-                .compact();
-    }
+	public static String generateToken(String username, String role) {
+		Map<String, Object> claims = new HashMap();
+		return Jwts.builder().setClaims(claims).setSubject(username).claim("role", role) // Add role as a claim
+				.setIssuedAt(new Date()).setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
+				.compact();
+	}
 
-    public static Claims getClaims(String token) {
-        return Jwts.parserBuilder()
-                .build()
-                .parseClaimsJwt(token)
-                .getBody();
-    }
+	public static Claims getClaims(String token) {
+		return Jwts.parserBuilder().build().parseClaimsJwt(token).getBody();
+	}
 
 //    public static boolean validateToken(String token) {
 //        try {
@@ -38,8 +32,13 @@ public class JWTUtil {
 //        }
 //    }
 
-    public static String getUsername(String token) {
-        return getClaims(token).getSubject();
-    }
-}
+	public static String getUsername(String token) {
+		return getClaims(token).getSubject();
+	}
 
+	public static String getRole(String token) {
+		Claims claims = JWTUtil.getClaims(token);
+		return claims.get("role", String.class);
+
+	}
+}

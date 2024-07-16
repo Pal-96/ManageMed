@@ -27,6 +27,8 @@ public class test extends HttpServlet {
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 
 		String result = null;
+		ResultSet rs = null;
+		String role = null;
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");
 		session=request.getSession();
@@ -36,9 +38,14 @@ public class test extends HttpServlet {
 			result = dao.Connection();
 			if (result.equals("Connection Established"))
 			{
+				System.out.println(result);
 				result = dao.login(username, password);
 				if (result.equals("Login Succssful")) {
-					String token = JWTUtil.generateToken(username);
+					System.out.println(result);
+					rs = dao.getRole(username);
+					if (rs.next())
+						role = rs.getString(1);
+					String token = JWTUtil.generateToken(username, role);
 					response.setHeader("Authorization", "Bearer " + token);
 
 					tokenCookie = new Cookie("token", token);

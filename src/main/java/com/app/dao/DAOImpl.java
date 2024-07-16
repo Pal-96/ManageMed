@@ -63,8 +63,7 @@ public class DAOImpl {
 
 		if (con == null) {
 			result = "Connection Error";
-		}
-		else {
+		} else {
 			result = "Connection Established";
 		}
 		return result;
@@ -91,24 +90,36 @@ public class DAOImpl {
 		return result;
 	}
 
-	public String Register(Person person) throws ClassNotFoundException, SQLException {
+	public String Register(Person person, String role) throws ClassNotFoundException, SQLException {
 		String hashPwd = person.getUser().getPassword();
 		String username = person.getUser().getUsername();
 		String frstname = person.getFrstname();
 		String lastname = person.getLastname();
-		String query = "insert into USERTB values (?,?,?,?)";
-		st = con.prepareStatement(query);
-		st.setString(1, username);
-		st.setString(2, frstname);
-		st.setString(3, lastname);
-		st.setString(4, hashPwd);
-
-		if (st.executeUpdate() > 0) {
-			result = "User Registered";
+		int role_id = 0;
+		String query1 = "select role_id from roles where role_name = ?";
+		st = con.prepareStatement(query1);
+		st.setString(1, role);
+		ResultSet rs = st.executeQuery();
+		if (rs.next()) {
+			role_id = rs.getInt(1);
 		}
 
-		else
-			result = "User registration failed. Please try again";
+		if (role_id > 0) {
+			String query2 = "insert into USERTB values (?,?,?,?,?)";
+			st = con.prepareStatement(query2);
+			st.setString(1, username);
+			st.setString(2, frstname);
+			st.setString(3, lastname);
+			st.setString(4, hashPwd);
+			st.setInt(5, role_id);
+
+			if (st.executeUpdate() > 0) {
+				result = "User Registered";
+			}
+
+			else
+				result = "User registration failed. Please try again";
+		}
 
 		return result;
 	}
@@ -232,7 +243,7 @@ public class DAOImpl {
 
 			} else {
 				String query3 = "insert into cart (product, quantity, price, username) values (?,?,?,?)";
-				System.out.println("Loged in:"+username);
+				System.out.println("Loged in:" + username);
 				st = con.prepareStatement(query3);
 				st.setString(1, product.toUpperCase());
 				st.setInt(2, quantity);
@@ -247,7 +258,7 @@ public class DAOImpl {
 	public ResultSet viewcart(String username) throws SQLException {
 		System.out.println("Inside viewcart");
 
-		System.out.println("Inside DAO logged in by:"+username);
+		System.out.println("Inside DAO logged in by:" + username);
 		String query1 = "select * from cart where username=? and (cart_status = ? OR cart_status is null) and order_id is null";
 		st = con.prepareStatement(query1, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
 		st.setString(1, username);
@@ -281,7 +292,7 @@ public class DAOImpl {
 		return rs;
 
 	}
-	
+
 	public int getCheckoutPrice(String username) throws SQLException {
 		int count = 0;
 		ResultSet rs = paymentDetails(username);
@@ -304,7 +315,7 @@ public class DAOImpl {
 		return rs;
 
 	}
-	
+
 	public int proceedPayment(LocalDate date, String username) throws SQLException {
 		String query1 = "select order_id from ORDERTB where order_status=? and username=?";
 		st = con.prepareStatement(query1);
@@ -314,7 +325,7 @@ public class DAOImpl {
 		if (rs.next()) {
 			int order_id = rs.getInt(1);
 			String query2 = "select payment_id from payment where order_id = ?";
-			st=con.prepareStatement(query2);
+			st = con.prepareStatement(query2);
 			st.setInt(1, order_id);
 			if (st.executeQuery().next()) {
 				String query4 = "update payment set payment_date=? where order_id=?";
@@ -322,17 +333,17 @@ public class DAOImpl {
 				st.setObject(1, date);
 				st.setInt(2, order_id);
 			}
-			
+
 			else {
-			String query3 = "insert into payment (order_id, payment_mode, payment_date, payment_status) values (?,?,?,? )";
-			st = con.prepareStatement(query3);
-			st.setInt(1, order_id);
-			st.setString(2, "CARD");
-			st.setObject(3, date);
-			st.setString(4, "PENDING");
+				String query3 = "insert into payment (order_id, payment_mode, payment_date, payment_status) values (?,?,?,? )";
+				st = con.prepareStatement(query3);
+				st.setInt(1, order_id);
+				st.setString(2, "CARD");
+				st.setObject(3, date);
+				st.setString(4, "PENDING");
 			}
 		}
-		
+
 		return st.executeUpdate();
 	}
 
@@ -344,7 +355,7 @@ public class DAOImpl {
 		CallableStatement st = con.prepareCall(query1);
 		st.setString(1, username);
 		st.registerOutParameter(2, java.sql.Types.NUMERIC);
-		
+
 		st.execute();
 
 		System.out.println(st.getInt(2));
@@ -386,7 +397,7 @@ public class DAOImpl {
 		return count;
 
 	}
-	
+
 	public int update(String product, int quantity, int unitprice, String description) throws SQLException {
 		System.out.println("Inside Update DAO");
 		System.out.print(product);
@@ -407,12 +418,12 @@ public class DAOImpl {
 			st.setString(4, product);
 			count = st.executeUpdate();
 			System.out.print("Count of update:" + count);
-		} 
+		}
 
 		return count;
 
 	}
-	
+
 	public int createOrder(String username, int orderQty, String orderStatus, LocalDate date) throws SQLException {
 		int result = 0;
 		String query1 = "select * from ordertb where username = ? and order_status=?";
@@ -427,21 +438,20 @@ public class DAOImpl {
 			st.setObject(2, date);
 			st.setString(3, username);
 			result = st.executeUpdate();
+		} else {
+			String query3 = "insert into ORDERTB (username, order_qty, order_status, order_date) values (?,?,?,?)";
+			st = con.prepareStatement(query3);
+			st.setString(1, username);
+			st.setInt(2, orderQty);
+			st.setString(3, orderStatus);
+			st.setObject(4, date);
+			result = st.executeUpdate();
 		}
-		else {
-		String query3 = "insert into ORDERTB (username, order_qty, order_status, order_date) values (?,?,?,?)";
-		st = con.prepareStatement(query3);
-		st.setString(1, username);
-		st.setInt(2, orderQty);
-		st.setString(3, orderStatus);
-		st.setObject(4, date);
-		result = st.executeUpdate();
-		}
-		
+
 		return result;
-		
+
 	}
-	
+
 	public void reserveCart(String username) throws SQLException {
 		System.out.println("Inside reserve cart");
 
@@ -450,7 +460,7 @@ public class DAOImpl {
 		st = con.prepareStatement(query1);
 		st.setString(1, username);
 		ResultSet rs = st.executeQuery();
-		
+
 		while (rs.next()) {
 			int cartQuantity = rs.getInt(1);
 			String product = rs.getString(2);
@@ -460,7 +470,7 @@ public class DAOImpl {
 			ResultSet rs2 = st.executeQuery();
 			if (rs2.next()) {
 				int stockQuantity = rs2.getInt(1);
-				if (stockQuantity>cartQuantity) {
+				if (stockQuantity > cartQuantity) {
 					String query3 = "update stock set quantity = quantity - ? where product = ?";
 					st = con.prepareStatement(query3);
 					st.setInt(1, cartQuantity);
@@ -472,9 +482,9 @@ public class DAOImpl {
 					st.setString(2, username);
 					st.setString(3, product);
 					st.executeUpdate();
-					
+
 				}
-				
+
 				else {
 					String query5 = "update cart set cart_status=? where username=? and product=? and cart_status is null";
 					st = con.prepareStatement(query5);
@@ -482,14 +492,13 @@ public class DAOImpl {
 					st.setString(2, username);
 					st.setString(3, product);
 					st.executeUpdate();
-					
+
 				}
 			}
 		}
-				
 
 	}
-	
+
 	public void restoreStock(String username) throws SQLException {
 		System.out.println("Inside restore stock");
 		System.out.println("Inside DAO");
@@ -498,7 +507,7 @@ public class DAOImpl {
 		st.setString(1, username);
 		st.setString(2, "RESERVED");
 		ResultSet rs = st.executeQuery();
-		
+
 		while (rs.next()) {
 			int cartQuantity = rs.getInt(1);
 			String product = rs.getString(2);
@@ -507,7 +516,7 @@ public class DAOImpl {
 			st.setInt(1, cartQuantity);
 			st.setString(2, product);
 			st.executeUpdate();
-			
+
 			String query3 = "update cart set cart_status = null where username = ? and product=? and cart_status in (?,?)";
 			st = con.prepareStatement(query3);
 			st.setString(1, username);
@@ -516,10 +525,10 @@ public class DAOImpl {
 			st.setString(4, "UNAVAILABLE");
 			st.executeUpdate();
 		}
-			
+
 	}
-	
-	public ResultSet checkAvail(String username ) throws SQLException {
+
+	public ResultSet checkAvail(String username) throws SQLException {
 		String query1 = "select product, quantity from cart where username=? and cart_status=?";
 		st = con.prepareStatement(query1);
 		st.setString(1, username);
@@ -527,8 +536,87 @@ public class DAOImpl {
 		ResultSet rs = st.executeQuery();
 		return rs;
 	}
-		
+
+	public ResultSet custRpt() throws SQLException {
+		String query1 = "select count(username) from usertb where role_id = (select role_id from roles where role_name=?)";
+		st = con.prepareStatement(query1);
+		st.setString(1, "Customer");
+		return st.executeQuery();
+	}
+
+	public ResultSet totSalesRpt() throws SQLException {
+		String query1 = "select count(order_id) from ordertb where order_status=?";
+		st = con.prepareStatement(query1);
+		st.setString(1, "COMPLETED");
+		return st.executeQuery();
+	}
+
+	public ResultSet totProductRpt() throws SQLException {
+		String query1 = "select count(product) from stock where quantity>0";
+		st = con.prepareStatement(query1);
+		return st.executeQuery();
+	}
+
+	public ResultSet getRole(String username) throws SQLException {
+		String query = "select role_name from roles where role_id = (select role_id from usertb where username = ?)";
+		st = con.prepareStatement(query);
+		st.setString(1, username);
+
+		return st.executeQuery();
+	}
+
+	public ResultSet getUsers() throws SQLException {
+		String query = "select username, firstname, lastname, roles.role_name, password \r\n" + "from usertb \r\n"
+				+ "left join roles \r\n" + "on usertb.role_id = roles.role_id \r\n" + "where roles.role_name!=?";
+		st = con.prepareStatement(query);
+		st.setString(1, "Customer");
+		return st.executeQuery();
+	}
+
+	public ResultSet getRoles() throws SQLException {
+		String query = "select * from roles where role_name!=?";
+		st = con.prepareStatement(query);
+		st.setString(1, "Customer");
+		return st.executeQuery();
+	}
+
+	public void addRole(String role) throws SQLException {
+		String query1 = "{call add_role(?)}";
+		CallableStatement st = con.prepareCall(query1);
+		st.setString(1, role);
+		st.execute();
+	}
+
+	public void editRole(String role, int roleId) throws SQLException {
+		String query1 = "update roles set role_name = ? where role_id=? ";
+		st = con.prepareStatement(query1);
+		st.setString(1, role);
+		st.setInt(2, roleId);
+		st.execute();
+	}
+
+	public void deleteRole(int roleId) throws SQLException {
+		String query1 = "delete from roles where role_id=? ";
+		st = con.prepareStatement(query1);
+		st.setInt(1, roleId);
+		st.execute();
+	}
+
+	public void editUser(String firstname, String lastname, String username, String roleName) throws SQLException {
+		String query1 = "update usertb set firstname = ?, lastname=?, role_id = (select role_id from roles where role_name=?) where username=?";
+		st = con.prepareStatement(query1);
+		st.setString(1, firstname);
+		st.setString(2, lastname);
+		st.setString(3, roleName);
+		st.setString(4, username);
+		st.execute();
+	}
+	
+	public void deleteUser(String username) throws SQLException {
+		String query1 = "delete from usertb where username=? ";
+		st = con.prepareStatement(query1);
+		st.setString(1, username);
+		st.execute();
+	}
 
 }
-
-

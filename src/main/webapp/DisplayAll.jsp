@@ -23,12 +23,14 @@
 
 	<%
 	ResultSet rs = null;
+	String role = null;
 	String token = test.getCookie(request);
 	String cartcount = "0";
 	if (token == null)
 		response.sendRedirect("Login.jsp");
 
 	else {
+		role = JWTUtil.getRole(token);
 		DAOImpl dao;
 		String product = request.getParameter("product");
 		String deletestock = request.getParameter("deletestock");
@@ -53,7 +55,8 @@
 		while (rs.next()) {
 		%>
 		<div class="col">
-			<div class="card text-bg-light mb-3">
+			<div class="card text-bg-light mb-3 border-info">
+			<%if (role.equals("Customer")) {%>
 				<div class="card-header">
 					<div class="container text-end">
 
@@ -72,6 +75,7 @@
 
 					</div>
 				</div>
+				<%} %>
 				<div class="card-body">
 
 					<h5 class="card-title"><%=rs.getString(1)%></h5>
@@ -96,7 +100,7 @@
 							<div class="modal-dialog">
 								<div class="modal-content">
 									<div class="modal-header">
-										<h1 class="modal-title fs-5" id="exampleModalLabel"></h1>
+										<h1 class="modal-title fs-5" id="exampleModalLabel">Edit Item</h1>
 										<button type="button" class="btn-close"
 											data-bs-dismiss="modal" aria-label="Close"></button>
 									</div>
@@ -139,6 +143,7 @@
 						</div>
 					</div>
 				</div>
+				<%if (role.equals("Admin")) { %>
 				<div class="card-footer text-body-secondary text-end">
 					<div class="d-flex">
 						<div>
@@ -150,7 +155,7 @@
 								data-unitprice="<%=rs.getString(3)%>" data-action="edit"
 								onclick="populateModal(this)">
 								<svg xmlns="http://www.w3.org/2000/svg" width="25" height="25"
-									fill="currentColor" class="bi bi-pencil-square"
+									fill="#0d6efd" class="bi bi-pencil-square"
 									viewBox="0 0 16 16">
   <path
 										d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
@@ -164,7 +169,7 @@
 							<button type=button class="btn" onclick="handleDeleteStock(this)"
 								id="liveAlertBtn">
 								<svg xmlns="http://www.w3.org/2000/svg" width="25" height="25"
-									fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+									fill="red" class="bi bi-trash" viewBox="0 0 16 16">
   <path
 										d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z" />
   <path
@@ -175,6 +180,7 @@
 						</div>
 					</div>
 				</div>
+				<%} %>
 			</div>
 			<br />
 		</div>

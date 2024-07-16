@@ -16,10 +16,6 @@ public class Logout extends HttpServlet {
 		Cookie tokenCookie = new Cookie("token", "");
         tokenCookie.setMaxAge(0);
         response.addCookie(tokenCookie);
-//		HttpSession session=request.getSession();
-//		session.removeAttribute("username");
-//		session.removeAttribute("password");
-//		session.invalidate();
 		 
 		response.sendRedirect("Login.jsp");
 		
