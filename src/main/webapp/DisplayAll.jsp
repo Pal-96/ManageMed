@@ -49,13 +49,13 @@
 		cartcount = "" + session.getAttribute("cartcount");
 	%>
 	<div id="liveAlertPlaceholder"></div>
-	<div class="row row-cols-1 row-cols-md-2 g-4">
+	<div class="row row-cols-3 g-4">
 
 		<%
 		while (rs.next()) {
 		%>
 		<div class="col">
-			<div class="card text-bg-light mb-3 border-info">
+			<div class="card text-bg-light">
 			<%if (role.equals("Customer")) {%>
 				<div class="card-header">
 					<div class="container text-end">
@@ -76,6 +76,7 @@
 					</div>
 				</div>
 				<%} %>
+				<img src="assets/images/products.png" class="card-img-top" height="250px" alt="...">
 				<div class="card-body">
 
 					<h5 class="card-title"><%=rs.getString(1)%></h5>
@@ -83,65 +84,7 @@
 					<ul class="list-group list-group-flush">
 						<li class="list-group-item text-bg-light">Quantity: <%=rs.getString(2)%></li>
 						<li class="list-group-item text-bg-light">Unit Price: $<%=rs.getString(3)%></li>
-						<li class="list-group-item text-bg-light"></li>
 					</ul>
-					<div
-						class=" card-body d-grid gap-2 d-md-flex justify-content-md-end">
-						<!--
-						<button type="button" class="btn btn-primary"
-							data-bs-toggle="modal" data-bs-target="#exampleModal"
-							data-bs-whatever="@mdo">Add</button>
-						<button type="button" class="btn btn-primary"
-							data-bs-toggle="modal" data-bs-target="#exampleModal"
-							data-bs-whatever="@fat">Delete</button> -->
-
-						<div class="modal fade" id="exampleModal" tabindex="-1"
-							aria-labelledby="exampleModalLabel" aria-hidden="true">
-							<div class="modal-dialog">
-								<div class="modal-content">
-									<div class="modal-header">
-										<h1 class="modal-title fs-5" id="exampleModalLabel">Edit Item</h1>
-										<button type="button" class="btn-close"
-											data-bs-dismiss="modal" aria-label="Close"></button>
-									</div>
-									<div class="modal-body">
-										<form action="addrem" method="post">
-											<div class="mb-3">
-												<label for="product" class="col-form-label">Product</label>
-												<input type="text" class="form-control" disabled="disabled" id="product">
-												<input type="hidden" id="hiddenproduct" name="product">	
-											</div>
-											<div class="mb-3">
-												<label for="description" class="col-form-label">Description</label>
-												<textarea class="form-control" id="description" name="description"></textarea>
-											</div>
-
-											<div class="container mb-3">
-												<div class="row">
-													<div class="col-md-6">
-														<label for="quantity" class="col-form-label">Quantity</label>
-														<input type="text" class="form-control" id="quantity"
-															name="quantity">
-													</div>
-													<div class="col-md-6">
-														<label for="unitprice" class="col-form-label">Unit
-															Price</label> <input type="text" class="form-control"
-															id="unitprice" name="unitprice">
-													</div>
-												</div>
-											</div>
-											<div class="modal-footer">
-												<button type="button" class="btn btn-secondary"
-													data-bs-dismiss="modal">Close</button>
-												<button type="submit" class="btn btn-primary" name="action"
-													value="edit">Submit</button>
-											</div>
-										</form>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
 				</div>
 				<%if (role.equals("Admin")) { %>
 				<div class="card-footer text-body-secondary text-end">
@@ -190,6 +133,52 @@
 		}
 		%>
 	</div>
+	<div class="modal fade" id="exampleModal" tabindex="-1"
+							aria-labelledby="exampleModalLabel" aria-hidden="true">
+							<div class="modal-dialog">
+								<div class="modal-content">
+									<div class="modal-header">
+										<h1 class="modal-title fs-5" id="exampleModalLabel">Edit Item</h1>
+										<button type="button" class="btn-close"
+											data-bs-dismiss="modal" aria-label="Close"></button>
+									</div>
+									<div class="modal-body">
+										<form action="addrem" method="post">
+											<div class="mb-3">
+												<label for="product" class="col-form-label">Product</label>
+												<input type="text" class="form-control" disabled="disabled" id="product">
+												<input type="hidden" id="hiddenproduct" name="product">	
+											</div>
+											<div class="mb-3">
+												<label for="description" class="col-form-label">Description</label>
+												<textarea class="form-control" id="description" name="description"></textarea>
+											</div>
+
+											<div class="container mb-3">
+												<div class="row">
+													<div class="col-md-6">
+														<label for="quantity" class="col-form-label">Quantity</label>
+														<input type="text" class="form-control" id="quantity"
+															name="quantity">
+													</div>
+													<div class="col-md-6">
+														<label for="unitprice" class="col-form-label">Unit
+															Price</label> <input type="text" class="form-control"
+															id="unitprice" name="unitprice">
+													</div>
+												</div>
+											</div>
+											<div class="modal-footer">
+												<button type="button" class="btn btn-secondary"
+													data-bs-dismiss="modal">Close</button>
+												<button type="submit" class="btn btn-primary" name="action"
+													value="edit">Submit</button>
+											</div>
+										</form>
+									</div>
+								</div>
+							</div>
+						</div>
 	<script>
 		function handleAddtoCart(button) {
 

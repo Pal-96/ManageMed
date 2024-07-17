@@ -126,12 +126,12 @@ public class DAOImpl {
 
 	public int insert(Product product) throws SQLException {
 		System.out.println("Inside DAO");
-		String query1 = "select * from stock where product=?";
+		String query1 = "select * from stock where UPPER(product)=?";
 		st = con.prepareStatement(query1);
 		st.setString(1, product.getProduct().toUpperCase());
 
 		if (st.executeUpdate() > 0) {
-			String query2 = "update stock set quantity=quantity+? where product=?";
+			String query2 = "update stock set quantity=quantity+? where UPPER(product)=?";
 			st = con.prepareStatement(query2);
 			st.setInt(1, product.getQuantity());
 			st.setString(2, product.getProduct().toUpperCase());
@@ -139,7 +139,7 @@ public class DAOImpl {
 			String query3 = "insert into stock values (?,?,?,?)";
 
 			st = con.prepareStatement(query3);
-			st.setString(1, product.getProduct().toUpperCase());
+			st.setString(1, product.getProduct());
 			st.setInt(2, product.getQuantity());
 			st.setInt(3, product.getUnitprice());
 			st.setString(4, product.getDescription());
@@ -151,7 +151,7 @@ public class DAOImpl {
 
 	public int remove(String product, int quantity) throws SQLException {
 		System.out.println("Inside DAO");
-		String query1 = "select quantity from stock where product=?";
+		String query1 = "select quantity from stock where UPPER(product)=?";
 		st = con.prepareStatement(query1);
 		st.setString(1, product.toUpperCase());
 
@@ -164,7 +164,7 @@ public class DAOImpl {
 				return 0;
 
 			else if (this.quantity > quantity) {
-				String query2 = "update stock set quantity=quantity-? where product=?";
+				String query2 = "update stock set quantity=quantity-? where UPPER(product)=?";
 				st = con.prepareStatement(query2);
 				st.setInt(1, quantity);
 				st.setString(2, product.toUpperCase());
@@ -181,7 +181,6 @@ public class DAOImpl {
 		System.out.println("Inside DAO");
 		String query1 = "select * from stock";
 		st = con.prepareStatement(query1);
-		// st.setString(1, "%"+product.toUpperCase()+"%");
 
 		ResultSet rs = st.executeQuery();
 		return rs;
@@ -192,7 +191,7 @@ public class DAOImpl {
 		System.out.println("Inside Display");
 
 		System.out.println("Inside DAO");
-		String query1 = "select * from stock where product like ?";
+		String query1 = "select product, quantity, unitprice, description from stock where UPPER(product) like ?";
 		st = con.prepareStatement(query1);
 		st.setString(1, "%" + product.toUpperCase() + "%");
 
@@ -216,7 +215,7 @@ public class DAOImpl {
 		}
 
 		else {
-			String query4 = "select unitprice from stock where product=?";
+			String query4 = "select unitprice from stock where UPPER(product)=?";
 			st = con.prepareStatement(query4);
 			st.setString(1, product.toUpperCase());
 
@@ -225,7 +224,7 @@ public class DAOImpl {
 				price = rs.getInt(1);
 			}
 
-			String query1 = "select product from cart where product=? and username=? and order_id is null";
+			String query1 = "select product from cart where UPPER(product)=? and username=? and order_id is null";
 			st = con.prepareStatement(query1);
 			st.setString(1, product.toUpperCase());
 			st.setString(2, username);
@@ -233,7 +232,7 @@ public class DAOImpl {
 			if (st.executeUpdate() > 0) {
 				System.out.println("Quan:" + quantity);
 				System.out.println("Price:" + price);
-				String query2 = "update cart set quantity=?, price=?*? where product=? and username=? and order_id is null";
+				String query2 = "update cart set quantity=?, price=?*? where UPPER(product)=? and username=? and order_id is null";
 				st = con.prepareStatement(query2);
 				st.setInt(1, quantity);
 				st.setInt(2, quantity);
@@ -245,7 +244,7 @@ public class DAOImpl {
 				String query3 = "insert into cart (product, quantity, price, username) values (?,?,?,?)";
 				System.out.println("Loged in:" + username);
 				st = con.prepareStatement(query3);
-				st.setString(1, product.toUpperCase());
+				st.setString(1, product);
 				st.setInt(2, quantity);
 				st.setInt(3, price * quantity);
 				st.setString(4, username);
@@ -375,7 +374,7 @@ public class DAOImpl {
 
 		else {
 
-			String query4 = "delete from cart where product=?";
+			String query4 = "delete from cart where UPPER(product)=?";
 			st = con.prepareStatement(query4);
 			st.setString(1, product.toUpperCase());
 
@@ -389,7 +388,7 @@ public class DAOImpl {
 
 	public int deletestock(String product) throws SQLException {
 		System.out.println("Inside delete stock");
-		String query2 = "delete from stock where product=?";
+		String query2 = "delete from stock where UPPER(product)=?";
 		st = con.prepareStatement(query2);
 		st.setString(1, product.toUpperCase());
 		int count = st.executeUpdate();

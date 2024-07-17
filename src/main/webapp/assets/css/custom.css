@@ -53,14 +53,12 @@ padding-left: 10in;
 }
 
 .cust-cont {
-	width: 95vw;
-	padding-left: 4vw;
-	padding-right: 2vw;
+	width: 100vw;
 }
 
 .checkout {
-	height: 36px;
-  background: #556cd6;
+	height: 50px;
+  background: #0d6efd;
   color: white;
   width: 100%;
   font-size: 14px;

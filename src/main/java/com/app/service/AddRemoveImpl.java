@@ -51,7 +51,9 @@ public class AddRemoveImpl extends HttpServlet {
 				count = dao.insert(product);
 				System.out.println("Inside add");
 				session.setAttribute("quantity", quantity);
-				response.sendRedirect("DisplayAll.jsp");
+				response.setContentType("text/html");
+                response.getWriter().write("<script>window.parent.loadContent('DisplayAll.jsp');</script>");
+//				response.sendRedirect("DisplayAll.jsp");
 			}
 
 			else if (action.equals("edit") && quantity > 0) {

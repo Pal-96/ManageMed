@@ -42,23 +42,20 @@
 		}
 		cartcount = "" + session.getAttribute("cartcount");
 	%>
-	<br />
-	<br />
-	<div class="carttitle">
-		<h1>Shopping cart</h1>
-		<div>
-			<p class="lead text-muted">
-				You have
-				<%=rowCount%>
-				items in your cart.
-			</p>
-		</div>
-	</div>
-	<br />
-	<section>
+	<section class="mt-3">
 		<div class="cust-cont">
 			<div class="row mb-5">
-				<div class="col-lg-8 pe-xl-5">
+				<div class="col">
+					<div>
+						<h1>Shopping cart</h1>
+						<div>
+							<p class="lead text-muted">
+								You have
+								<%=rowCount%>
+								items in your cart.
+							</p>
+						</div>
+					</div>
 					<%
 					while (rs.next()) {
 						ResultSet rs2 = dao.paymentDetails(username);
@@ -67,9 +64,9 @@
 							stock = rs2.getInt(2);
 						}
 					%>
-					<div class="item-of-cart text-starttext-md-center">
+					<div class="item-of-cart text-start">
 						<div
-							class="row d-flex align-items-center text-starttext-md-center">
+							class="row d-flex align-items-center text-start text-md-center">
 							<div class="col-12 col-md-5 text-center product">
 								<b><%=rs.getString(1)%></b>
 							</div>
@@ -150,7 +147,7 @@
 										<td class="py-4 text-end text-muted">$0.00</td>
 									</tr>
 									<tr>
-										<th class="pt-4 border-0">Total</th>
+										<th class="pt-4 border-0">Estimated Total</th>
 										<td class="pt-4 text-end h3 fw-normal border-0">$<%=total + shipping%>.00
 										</td>
 									</tr>
@@ -161,7 +158,7 @@
 							<div class="d-grid">
 								<form action="create-checkout-session" method="POST"
 									target="_blank" class="text-end">
-									<button type="submit" class="checkout" name="shipping"
+									<button type="submit" class="checkout btn btn-warning" name="shipping"
 										value=<%=shipping%>>Checkout</button>
 								</form>
 							</div>
