@@ -12,35 +12,6 @@
 	crossorigin="anonymous">
 <link rel="stylesheet" href="./assets/css/custom.css"></link>
 </head>
-<!-- <nav class="navbar navbar-expand-lg navbar-light w-100"
-	style="border-bottom: 2px solid grey">
-<div class="container">
-	<a class="navbar-brand" href="Login.html"><img
-		src="assets/images/pills-solid.svg" alt="" width="30" height="30">
-		ManageMed</a>
-
-	<div class="offcanvas offcanvas-start offcanvas-nav"
-		style="width: 20rem">
-
-		<div class="offcanvas-body pt-0 align-items-center">
-			<ul class="navbar-nav mx-auto align-items-lg-center">
-				<li class="nav-item"><a class="nav-link" href="#" role="button"
-					aria-expanded="false">Manage Medicine</a></li>
-				<li class="nav-item"><a class="nav-link" href="#" role="button"
-					aria-expanded="false">Customer Sale</a></li>
-				<li class="nav-item"><a class="nav-link" href="#" role="button"
-					aria-expanded="false">View Stock</a></li>
-				<li class="nav-item"><a class="nav-link" href="#" role="button"
-					aria-expanded="false">About Us</a></li>
-			</ul>
-			<div class="mt-3 mt-lg-0 d-flex align-items-center">
-				<a href="Login.jsp" class="btn btn-light mx-2">Login</a> <a
-					href="Register.jsp" class="btn btn-primary">Create account</a>
-			</div>
-		</div>
-	</div>
-</div>
-</nav> -->
 <div>
 	<body>
 	<jsp:include page="nav-bar-before-login.html" />
@@ -111,20 +82,7 @@
 		if (session.getAttribute("signuperror") != null) {
 			session.removeAttribute("signuperror");
 		%>
-		<script>
-			const alertPlaceholder = document
-					.getElementById('liveAlertPlaceholder')
-			const wrapper = document.createElement('div')
-			if (wrapper) {
-				wrapper.innerHTML = [
-						`<div class="alert alert-warning alert-dismissible" role="alert">`,
-						`   <div>Error in user registration. Please try again</div>`,
-						'   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>',
-						'</div>' ].join('')
-
-				alertPlaceholder.append(wrapper)
-			}
-		</script>
+		<script src="./js/register.js"></script>
 		<%
 		}
 		%>

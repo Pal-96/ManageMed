@@ -73,12 +73,12 @@
 						<td><%=rs1.getString(4)%></td>
 						<td><button type="button" class="btn" data-bs-toggle="modal"
 								data-bs-target="#addModel" data-bs-whatever="@mdo"
-								data-fn="<%= rs1.getString(2) %>"
-								data-ln="<%= rs1.getString(3) %>"
-								data-un="<%= rs1.getString(1) %>"
-								data-role="<%=rs1.getString(4) %>"
-								data-pw="<%= rs1.getString(5)%>"
-								data-action="edit" onclick="populateModal(this)">
+								data-fn="<%=rs1.getString(2)%>"
+								data-ln="<%=rs1.getString(3)%>"
+								data-un="<%=rs1.getString(1)%>"
+								data-role="<%=rs1.getString(4)%>"
+								data-pw="<%=rs1.getString(5)%>" data-action="edit"
+								onclick="populateModal(this)">
 								<svg xmlns="http://www.w3.org/2000/svg" width="15" height="15"
 									fill="#0d6efd" class="bi bi-pencil-square" viewBox="0 0 16 16">
   <path
@@ -121,16 +121,23 @@
 				<div class="modal-body">
 					<form action="register" method="post">
 						<div class="dropdown text-end">
-							<button class="btn btn-primary dropdown-toggle" type="button" id="roleDropdown"
-								data-bs-toggle="dropdown" aria-expanded="false" required> Role </button>
+							<button class="btn btn-primary dropdown-toggle" type="button"
+								id="roleDropdown" data-bs-toggle="dropdown"
+								aria-expanded="false" required>Role</button>
 
 							<ul class="dropdown-menu">
-								<% while(rs2.next()) { %>
-								<li><a class="dropdown-item" href="#" onclick="setRole(this)"><%= rs2.getString(2)%></a></li>
-								<%} %>
+								<%
+								while (rs2.next()) {
+								%>
+								<li><a class="dropdown-item" href="#"
+									onclick="setRole(this)"><%=rs2.getString(2)%></a></li>
+								<%
+								}
+								%>
 							</ul>
 						</div>
-						<input type="hidden" id="selectedRole" name="selectedRole" required>
+						<input type="hidden" id="selectedRole" name="selectedRole"
+							required>
 						<div class="mb-3">
 							<label for="firstname" class="col-form-label">First Name</label>
 							<input type="text" class="form-control" id="firstname"
@@ -138,17 +145,20 @@
 						</div>
 						<div class="mb-3">
 							<label for="lastname" class="col-form-label">Last Name</label> <input
-								type="text" class="form-control" id="lastname" name="lastname" required>
+								type="text" class="form-control" id="lastname" name="lastname"
+								required>
 						</div>
 						<div class="mb-3">
 							<label for="username" class="col-form-label">User Name</label> <input
-								type="text" class="form-control" id="username" name="username" required>
+								type="text" class="form-control" id="username" name="username"
+								required>
 						</div>
 						<input type="hidden" id="hid-username" name="username">
-						<div><label for="password" class="col-form-label">Password</label></div>
+						<div>
+							<label for="password" class="col-form-label">Password</label>
+						</div>
 						<div class="mb-3 d-flex">
-							 <input
-								type="password" class="form-control" id="password"
+							<input type="password" class="form-control" id="password"
 								name="password" required>
 							<button type="button" class="btn">
 								<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
@@ -164,8 +174,8 @@
 						<div class="modal-footer">
 							<button type="button" class="btn btn-secondary"
 								data-bs-dismiss="modal">Close</button>
-							<button type="submit" class="btn btn-primary" name="action" id="action"
-								value="add">Submit</button>
+							<button type="submit" class="btn btn-primary" name="action"
+								id="action" value="add">Submit</button>
 						</div>
 					</form>
 				</div>
@@ -173,69 +183,7 @@
 			</div>
 		</div>
 	</div>
-<script>
-function populateModal(button) {
-	document.getElementById('username').disabled = "disabled";
-	const firstname = button.getAttribute('data-fn');
-	const lastname = button.getAttribute('data-ln');
-	const username = button.getAttribute('data-un');
-	const role = button.getAttribute('data-role');
-	const password = button.getAttribute('data-pw');
-	
-	document.getElementById('firstname').value = firstname;
-	document.getElementById('lastname').value = lastname;
-	document.getElementById('username').value = username;
-	document.getElementById('hid-username').value = username;
-	document.getElementById('roleDropdown').textContent = role;
-	document.getElementById('selectedRole').value = role;
-	document.getElementById('password').value = password;
-	document.getElementById('action').value = "edit";
-
-	
-}
-
-function setRole(element) {
-	let role = element.textContent;
-	document.getElementById('roleDropdown').textContent = role;
-	document.getElementById('selectedRole').value = role;
-}
-
-function addUser(button) {
-	document.getElementById('username').disabled = "";
-	document.getElementById('firstname').value = "";
-	document.getElementById('lastname').value = "";
-	document.getElementById('username').value = "";
-	document.getElementById('hid-username').value = "";
-	document.getElementById('roleDropdown').textContent = "Role";
-	document.getElementById('password').value = "";
-}
-
-function handleDeleteUser(button) {
-	let tbrowuser = button.closest('.tbrowuser');
-	let username = tbrowuser.querySelector('#usertb').innerText;
-	let action = "delete";
-	console.log(action);
-	
-	let response = fetch('register', {
-		method: 'POST',
-		header: {'Content-Type' : 'application/x-www-form-urlencoded'},
-		body: new URLSearchParams({
-			username: username,
-			action: action
-		})
-	}).then(response => {
-		if (response.ok) {
-			location.reload();  // Refresh the page
-			
-		} else {
-			console.error('Failed to delete the user');
-		}
-	}).catch(error => {
-		console.error('Error:', error);
-	});
-}
-
-</script>
+	<script src="./js/manageusers.js"></script>
 	<%
 	}
 	%>

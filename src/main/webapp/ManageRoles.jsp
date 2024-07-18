@@ -6,7 +6,6 @@
 <%@ page import="com.app.service.test"%>
 <%@ page import="com.app.security.*"%>
 <!DOCTYPE html>
-
 <html>
 <head>
 <meta charset="ISO-8859-1">
@@ -27,7 +26,6 @@
 	String token = test.getCookie(request);
 	if (token == null)
 		response.sendRedirect("Login.jsp");
-
 	else {
 		DAOImpl dao = DAOImpl.getInstance();
 		rs1 = dao.getRoles();
@@ -66,9 +64,9 @@
 						<td id="roleName"><%=rs1.getString(2)%></td>
 						<td><button type="button" class="btn" data-bs-toggle="modal"
 								data-bs-target="#addModel" data-bs-whatever="@mdo"
-								data-roleId="<%=rs1.getInt(1) %>"
-								data-roleName="<%=rs1.getString(2) %>" 
-								data-action="edit" onclick="populateModal(this)">
+								data-roleId="<%=rs1.getInt(1)%>"
+								data-roleName="<%=rs1.getString(2)%>" data-action="edit"
+								onclick="populateModal(this)">
 								<svg xmlns="http://www.w3.org/2000/svg" width="15" height="15"
 									fill="#0d6efd" class="bi bi-pencil-square" viewBox="0 0 16 16">
   <path
@@ -93,10 +91,8 @@
 					<%
 					}
 					%>
-
 				</tbody>
 			</table>
-
 		</div>
 	</div>
 	<div class="modal fade" id="addModel" tabindex="-1"
@@ -111,72 +107,27 @@
 				<div class="modal-body">
 					<form action="addrole" method="post">
 						<div class="mb-3">
-							<label for="role" class="col-form-label">Role Name</label>
-							<input type="text" class="form-control" id="role"
-								name="role">
+							<label for="role" class="col-form-label">Role Name</label> <input
+								type="text" class="form-control" id="role" name="role">
 						</div>
 						<div class="mb-3">
-							<input type="text" class="form-control" id="editroleId" hidden="true"
-								name="roleId">
+							<input type="text" class="form-control" id="editroleId"
+								hidden="true" name="roleId">
 						</div>
 						<div class="modal-footer">
 							<button type="button" class="btn btn-secondary"
 								data-bs-dismiss="modal">Close</button>
-							<button type="submit" class="btn btn-primary" name="action" id="action"
-								value="add">Submit</button>
+							<button type="submit" class="btn btn-primary" name="action"
+								id="action" value="add">Submit</button>
 						</div>
-						
 					</form>
 				</div>
-
 			</div>
 		</div>
 	</div>
-
 	<%
 	}
 	%>
-<script>
-		
-		function handleDeleteRole(button) {
-			let tbrow = button.closest('.tbrow');
-			let roleId = tbrow.querySelector('#roleId').innerText;
-			let action = "delete";
-			console.log(roleId);
-			console.log(action);
-			
-			let response = fetch('addrole', {
-				method: 'POST',
-				header: {'Content-Type' : 'application/x-www-form-urlencoded'},
-				body: new URLSearchParams({
-					roleId: roleId,
-					action: action
-				})
-			}).then(response => {
-				if (response.ok) {
-					location.reload();  // Refresh the page
-					
-				} else {
-					console.error('Failed to delete the role');
-				}
-			}).catch(error => {
-				console.error('Error:', error);
-			});
-		}
-		
-		function populateModal(button) {
-			const roleId = button.getAttribute('data-roleId');
-			const roleName = button.getAttribute('data-roleName');
-			
-			document.getElementById('role').value = roleName;
-			document.getElementById('editroleId').value = roleId;
-			document.getElementById('action').value = "edit";
-			
-		}
-		
-		
-		
-	</script>
-
+	<script src="./js/manageroles.js"></script>
 </body>
 </html>

@@ -13,9 +13,7 @@
 <link rel="stylesheet" href="./assets/css/custom.css"></link>
 </head>
 <body>
-
-<jsp:include page="nav-bar-before-login.html" />
-	
+	<jsp:include page="nav-bar-before-login.html" />
 	<div class="container container-login">
 		<div class="row">
 			<div class="col container-login">
@@ -33,9 +31,6 @@
 							Don't have an account yet? <a href="Register.jsp"
 								class="text-primary">Register here</a>
 						</p>
-						
-
-
 					</div>
 					<div id="liveAlertPlaceholder"></div>
 					<form action="test" method="POST"
@@ -56,42 +51,25 @@
 								<div class="invalid-feedback">Please enter password.</div>
 							</div>
 						</div>
-
 						<div class="d-grid">
 							<button class="btn btn-primary" type="submit">Sign In</button>
 						</div>
-						<p class="mt-3 text-muted">Copyrights &copy;2024. Built by Sayantika Pal</p>
+						<p class="mt-3 text-muted">Copyrights &copy;2024. Built by
+							Sayantika Pal</p>
 					</form>
-
-
 				</div>
 			</div>
-
 			<div class="w-100"></div>
 		</div>
 	</div>
 	<%
-	if (session.getAttribute("invalidcreds")!=null) {
+	if (session.getAttribute("invalidcreds") != null) {
 		out.println("Invalid credentials");
 		session.removeAttribute("invalidcreds");
 	%>
-	<script>
-		const alertPlaceholder = document
-				.getElementById('liveAlertPlaceholder')
-			const wrapper = document.createElement('div')
-			if (wrapper) {
-				wrapper.innerHTML = [
-						`<div class="alert alert-warning alert-dismissible" role="alert">`,
-						`   <div>Invalid credentials</div>`,
-						'   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>',
-						'</div>' ].join('')
-
-				alertPlaceholder.append(wrapper)
-			}
-	</script>
+	<script src="./js/login.js"></script>
 	<%
 	}
 	%>
 </body>
-</center>
 </html>

@@ -16,14 +16,12 @@
 <script
 	src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </head>
-
 <body>
 	<%
 	String token = test.getCookie(request);
 
 	if (token == null)
 		response.sendRedirect("Login.jsp");
-
 	else {
 		String username = JWTUtil.getUsername(token);;
 		String role = JWTUtil.getRole(token);
@@ -32,8 +30,7 @@
 	<jsp:include page="navbar-after-login.html" />
 	<%
 response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
-%>
-	
+%>	
 	<div class="container mt-3">
 		<div class="row">
 			<div class="col">
@@ -150,6 +147,11 @@ response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
 							class="align-bottom bx bx-user"></i> <span class="ms-2">View
 								Cart</span>
 					</a></li>
+					<li class="nav-item bg-light border rounded-pill"><a
+						class="nav-link" href="javascript:void(0);"
+						onclick="loadContent('MyOrders.jsp')"> <i
+							class="align-bottom bx bx-user"></i> <span class="ms-2">My Orders</span>
+					</a></li>
 					<%
 					}
 					%>
@@ -164,8 +166,7 @@ response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
 					width="100%" height="600px" src="DisplayAll.jsp"></iframe>
 			</div>
 		</div>
-	</div>
-	
+	</div>	
 	<div class="mt-5"></div>
 	<div class="modal fade" id="addModel" tabindex="-1"
 		aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -212,16 +213,8 @@ response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
 			</div>
 		</div>
 	</div>
-
 	<jsp:include page="footer.html" />
-
-	<script>
-		function loadContent(page) {
-			document.getElementById('contentFrame').src = page;
-			document.getElementById('searchForm').action = page;
-		}
-	</script>
-
+	<script src="./js/home.js"></script>
 	<script
 		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
 		integrity="sha384-ppJrBfQZ6Nx69ul5kxDwepP6ct3U7y5rVZHZB4Xtmbw8H6hoF+jNQaIfFAl3sHUt"

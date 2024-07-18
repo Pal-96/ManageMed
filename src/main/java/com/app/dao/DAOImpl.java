@@ -617,5 +617,17 @@ public class DAOImpl {
 		st.setString(1, username);
 		st.execute();
 	}
+	
+	public ResultSet getOrders(String username) throws SQLException {
+		String query = "select product, quantity, price, o.order_date from cart c\r\n"
+				+ "inner join ordertb o\r\n"
+				+ "on c.order_id = o.order_id\r\n"
+				+ "and cart_status='PURCHASED' \r\n"
+				+ "and c.username=?";
+		
+		st = con.prepareStatement(query);
+		st.setString(1, username);
+		return st.executeQuery();
+	}
 
 }

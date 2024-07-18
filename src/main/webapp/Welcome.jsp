@@ -53,18 +53,15 @@
 	}
 	%>
 	<div>
-
 		<section class="pt-6 pt-md-11">
 			<br /> <br /> <br />
 			<div class="container">
 				<div class="row align-items-center">
 					<div class="col-12 col-md-5 col-lg-6 order-md-2">
-
 						<!-- Image -->
 						<img src="assets/images/Home.jpg"
 							class="img-fluid mw-md-150 mw-lg-130 mb-6 mb-md-0 aos-init aos-animate rounded"
 							alt="..." data-aos="fade-up" data-aos-delay="100">
-
 					</div>
 					<div
 						class="col-12 col-md-7 col-lg-6 order-md-1 aos-init aos-animate"
@@ -76,19 +73,13 @@
 							<h3 class="display-4 text-center text-md-center">Pharmacy
 								assistant.</h3>
 						</h1>
-
 						<!-- Text -->
 						<p
 							class="lead text-center text-md-center text-body-secondary mb-6 mb-lg-8">
 							Find, shop and checkout with your medicines seamlessly</p>
-
-
-
 					</div>
 				</div>
-				<!-- / .row -->
 			</div>
-			<!-- / .container -->
 		</section>
 		<section class="cmt-7">
 			<h1 class="display-3">
@@ -112,15 +103,12 @@
 												d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0" />
 </svg>
 									</div>
-
 									<!-- Heading -->
 									<h3>Find your suitable medicines</h3>
-
 									<!-- Text -->
 									<p class="text-body-secondary mb-7">Navigate our extensive
 										catalog effortlessly to find the exact medicines you need,
 										ensuring your health is always within reach.</p>
-
 								</div>
 								<div
 									class="col-12 col-md-4 aos-init aos-animate border border-warning bg-light border-1 rounded-pill"
@@ -135,15 +123,12 @@
 												d="M.5 1a.5.5 0 0 0 0 1h1.11l.401 1.607 1.498 7.985A.5.5 0 0 0 4 12h1a2 2 0 1 0 0 4 2 2 0 0 0 0-4h7a2 2 0 1 0 0 4 2 2 0 0 0 0-4h1a.5.5 0 0 0 .491-.408l1.5-8A.5.5 0 0 0 14.5 3H2.89l-.405-1.621A.5.5 0 0 0 2 1zM6 14a1 1 0 1 1-2 0 1 1 0 0 1 2 0m7 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0m-1.646-7.646-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L8 8.293l2.646-2.647a.5.5 0 0 1 .708.708" />
 </svg>
 									</div>
-
 									<!-- Heading -->
 									<h3>Manage your selections</h3>
-
 									<!-- Text -->
 									<p class="text-body-secondary mb-7">Personalize your health
 										journey by easily adding essentials and managing your cart
 										with the flexibility to adapt as your needs evolve.</p>
-
 								</div>
 								<div
 									class="col-12 col-md-4 aos-init aos-animate border border-warning bg-light border-1 rounded-pill"
@@ -168,9 +153,7 @@
 									<p class="text-body-secondary mb-7">Simplify your
 										healthcare routine by securely uploading prescriptions online,
 										ensuring seamless access to medications from anywhere.</p>
-
 								</div>
-
 							</div>
 						</div>
 					</div>
@@ -198,7 +181,6 @@
 									<p class="text-body-secondary mb-7">Experience hassle-free
 										ordering with streamlined processes that ensure your
 										medications are delivered swiftly and reliably, every time.</p>
-
 								</div>
 								<div
 									class="col-12 col-md-4 aos-init aos-animate border border-warning bg-light border-1 rounded-pill"
@@ -345,5 +327,4 @@
 		</section>
 		<jsp:include page="footer.html" />
 </body>
-
 </html>
