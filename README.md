@@ -6,7 +6,8 @@ https://drive.google.com/file/d/1TPxxLFk1WDfCEUjmIWoAjzObCjljO9Dd/view?usp=shari
 - User Authentication: Customers can register and log in to access their accounts.
 - Product Browsing: Easily browse through a wide range of products.
 - Product Search: Search for specific products quickly and efficiently.
-- Shopping Cart Management: Add products to the shopping cart, manage the cart's contents, and proceed to checkout.
+- Shopping Cart Management: Add products to the shopping cart and manage the cart's contents.
+- Concurrent Checkout: Multiple users can check out and purchase items simultaneously with real-time access to stock.
 - Secure Payment: Seamlessly complete purchases with secure payment option.
 
 ## Admin Features:
