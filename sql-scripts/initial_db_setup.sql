@@ -1,139 +1,188 @@
 --Drop Tables
 SET SERVEROUTPUT ON
- 
+
 BEGIN
-    FOR I IN (
-        WITH MYTABLES AS (
-            SELECT 'PAYMENT' AS TNAME FROM DUAL
-            UNION ALL SELECT 'CART' FROM DUAL
-            UNION ALL SELECT 'ORDERTB' FROM DUAL
-            UNION ALL SELECT 'USERTB' FROM DUAL
-            UNION ALL SELECT 'STOCK' FROM DUAL
-            UNION ALL SELECT 'ROLES' FROM DUAL
+    FOR i IN (
+        WITH mytables AS (
+            SELECT
+                'PAYMENT' AS tname
+            FROM
+                dual
+            UNION ALL
+            SELECT
+                'CART'
+            FROM
+                dual
+            UNION ALL
+            SELECT
+                'ORDERTB'
+            FROM
+                dual
+            UNION ALL
+            SELECT
+                'USERTB'
+            FROM
+                dual
+            UNION ALL
+            SELECT
+                'STOCK'
+            FROM
+                dual
+            UNION ALL
+            SELECT
+                'ROLES'
+            FROM
+                dual
         )
-        SELECT M.TNAME
-        FROM MYTABLES M INNER JOIN USER_TABLES O ON M.TNAME = O.TABLE_NAME
-    )
-    LOOP
+        SELECT
+            m.tname
+        FROM
+                 mytables m
+            INNER JOIN user_tables o ON m.tname = o.table_name
+    ) LOOP
         BEGIN
-            DBMS_OUTPUT.PUT_LINE('TABLE NAME TO BE DROPPED: ' || I.TNAME);
-            EXECUTE IMMEDIATE 'DROP TABLE ' || I.TNAME;
+            dbms_output.put_line('TABLE NAME TO BE DROPPED: ' || i.tname);
+            EXECUTE IMMEDIATE 'DROP TABLE ' || i.tname;
         EXCEPTION
             WHEN OTHERS THEN
-                DBMS_OUTPUT.PUT_LINE(SQLERRM);
+                dbms_output.put_line(sqlerrm);
         END;
     END LOOP;
 EXCEPTION
     WHEN OTHERS THEN
-        DBMS_OUTPUT.PUT_LINE(SQLERRM);
+        dbms_output.put_line(sqlerrm);
 END;
 /
--------------------------------------------
  
 --Drop sequences 
 BEGIN
-    FOR I IN (
-        WITH MYSEQUENCES AS (
-            SELECT 'ROLE_ID_SEQ' AS SEQ_NAME FROM DUAL
-            UNION ALL SELECT 'ORDER_ID_SEQ' FROM DUAL
-            UNION ALL SELECT 'PAYMENT_ID_SEQ' FROM DUAL
+    FOR i IN (
+        WITH mysequences AS (
+            SELECT
+                'ROLE_ID_SEQ' AS seq_name
+            FROM
+                dual
+            UNION ALL
+            SELECT
+                'ORDER_ID_SEQ'
+            FROM
+                dual
+            UNION ALL
+            SELECT
+                'PAYMENT_ID_SEQ'
+            FROM
+                dual
         )
-        SELECT M.SEQ_NAME
-        FROM MYSEQUENCES M INNER JOIN USER_SEQUENCES O ON M.SEQ_NAME = O.SEQUENCE_NAME
-    )
-    LOOP
+        SELECT
+            m.seq_name
+        FROM
+                 mysequences m
+            INNER JOIN user_sequences o ON m.seq_name = o.sequence_name
+    ) LOOP
         BEGIN
-            DBMS_OUTPUT.PUT_LINE('SEQUENCE TO BE DROPPED: ' || I.SEQ_NAME);
-            EXECUTE IMMEDIATE 'DROP SEQUENCE ' || I.SEQ_NAME;
+            dbms_output.put_line('SEQUENCE TO BE DROPPED: ' || i.seq_name);
+            EXECUTE IMMEDIATE 'DROP SEQUENCE ' || i.seq_name;
         EXCEPTION
             WHEN OTHERS THEN
-                DBMS_OUTPUT.PUT_LINE(SQLERRM);
+                dbms_output.put_line(sqlerrm);
         END;
     END LOOP;
 EXCEPTION
     WHEN OTHERS THEN
-        DBMS_OUTPUT.PUT_LINE(SQLERRM);
+        dbms_output.put_line(sqlerrm);
 END;
 /
 
 -- Create Sequences
-CREATE SEQUENCE ROLE_ID_SEQ START WITH 1;
-CREATE SEQUENCE ORDER_ID_SEQ START WITH 1;
-CREATE SEQUENCE PAYMENT_ID_SEQ START WITH 1;
+CREATE SEQUENCE role_id_seq START WITH 1;
+
+CREATE SEQUENCE order_id_seq START WITH 1;
+
+CREATE SEQUENCE payment_id_seq START WITH 1;
 
 -- Create Tables
-CREATE TABLE ROLES 
-(
-    ROLE_ID NUMBER(6,0) DEFAULT ROLE_ID_SEQ.NEXTVAL NOT NULL, 
-    ROLE_NAME VARCHAR2(50) NOT NULL, 
-    CONSTRAINT PK_ROLES PRIMARY KEY (ROLE_ID), 
-    CONSTRAINT UK_ROLES_ROLE_NAME UNIQUE (ROLE_NAME)
+CREATE TABLE roles (
+    role_id   NUMBER(6, 0) DEFAULT role_id_seq.NEXTVAL NOT NULL,
+    role_name VARCHAR2(50) NOT NULL,
+    CONSTRAINT pk_roles PRIMARY KEY ( role_id ),
+    CONSTRAINT uk_roles_role_name UNIQUE ( role_name )
 );
 /
 
-CREATE TABLE USERTB 
-(
-    USERNAME VARCHAR2(20) NOT NULL, 
-    FIRSTNAME VARCHAR2(50) NOT NULL, 
-    LASTNAME VARCHAR2(50), 
-    PASSWORD VARCHAR2(100) NOT NULL, 
-    ROLE_ID NUMBER(6,0) NOT NULL,
-    CONSTRAINT PK_USERTB PRIMARY KEY (USERNAME),
-    CONSTRAINT USER_ROLE_FK FOREIGN KEY (ROLE_ID) REFERENCES ROLES (ROLE_ID) ON DELETE CASCADE ENABLE
+CREATE TABLE usertb (
+    username  VARCHAR2(20) NOT NULL,
+    firstname VARCHAR2(50) NOT NULL,
+    lastname  VARCHAR2(50),
+    password  VARCHAR2(100) NOT NULL,
+    role_id   NUMBER(6, 0) NOT NULL,
+    CONSTRAINT pk_usertb PRIMARY KEY ( username ),
+    CONSTRAINT user_role_fk FOREIGN KEY ( role_id )
+        REFERENCES roles ( role_id )
+            ON DELETE CASCADE
+    ENABLE
 );
 /
 
-CREATE TABLE STOCK 
-(
-    PRODUCT VARCHAR2(50) NOT NULL, 
-    QUANTITY NUMBER NOT NULL, 
-    UNITPRICE NUMBER NOT NULL, 
-    DESCRIPTION VARCHAR2(200),
-    CONSTRAINT PK_STOCK PRIMARY KEY (PRODUCT)
+CREATE TABLE stock (
+    product     VARCHAR2(50) NOT NULL,
+    quantity    NUMBER NOT NULL,
+    unitprice   NUMBER NOT NULL,
+    description VARCHAR2(200),
+    CONSTRAINT pk_stock PRIMARY KEY ( product )
 );
 /
 
-CREATE TABLE ORDERTB 
-(
-    ORDER_ID NUMBER(10,0) DEFAULT ORDER_ID_SEQ.NEXTVAL NOT NULL, 
-    USERNAME VARCHAR2(50) NOT NULL, 
-    ORDER_QTY NUMBER NOT NULL, 
-    ORDER_STATUS VARCHAR2(50),
-    ORDER_DATE DATE,
-    CONSTRAINT ORDER_USER_FK FOREIGN KEY (USERNAME) REFERENCES USERTB (USERNAME) ON DELETE CASCADE ENABLE,
-    CONSTRAINT PK_ORDER PRIMARY KEY (ORDER_ID)
+CREATE TABLE ordertb (
+    order_id     NUMBER(10, 0) DEFAULT order_id_seq.NEXTVAL NOT NULL,
+    username     VARCHAR2(50) NOT NULL,
+    order_qty    NUMBER NOT NULL,
+    order_status VARCHAR2(50),
+    order_date   DATE,
+    CONSTRAINT order_user_fk FOREIGN KEY ( username )
+        REFERENCES usertb ( username )
+            ON DELETE CASCADE
+    ENABLE,
+    CONSTRAINT pk_order PRIMARY KEY ( order_id )
 );
 /
 
-CREATE TABLE CART
-(
-    PRODUCT VARCHAR2(50) NOT NULL, 
-    QUANTITY NUMBER NOT NULL, 
-    PRICE NUMBER NOT NULL, 
-    USERNAME VARCHAR2(20) NOT NULL, 
-    ORDER_ID NUMBER(10,0), 
-    CART_STATUS VARCHAR2(15),
-    CONSTRAINT PK_CART PRIMARY KEY (PRODUCT, USERNAME, ORDER_ID),
-    CONSTRAINT FK_CART_PRODUCT FOREIGN KEY (PRODUCT) REFERENCES STOCK (PRODUCT),
-    CONSTRAINT FK_CART_USERNAME FOREIGN KEY (USERNAME) REFERENCES USERTB (USERNAME),
-    CONSTRAINT FK_CART_ORDER_ID FOREIGN KEY (ORDER_ID) REFERENCES ORDERTB (ORDER_ID)
+CREATE TABLE cart (
+    product     VARCHAR2(50) NOT NULL,
+    quantity    NUMBER NOT NULL,
+    price       NUMBER NOT NULL,
+    username    VARCHAR2(20) NOT NULL,
+    order_id    NUMBER(10, 0),
+    cart_status VARCHAR2(15),
+    CONSTRAINT pk_cart PRIMARY KEY ( product,
+                                     username,
+                                     order_id ),
+    CONSTRAINT fk_cart_product FOREIGN KEY ( product )
+        REFERENCES stock ( product ),
+    CONSTRAINT fk_cart_username FOREIGN KEY ( username )
+        REFERENCES usertb ( username ),
+    CONSTRAINT fk_cart_order_id FOREIGN KEY ( order_id )
+        REFERENCES ordertb ( order_id )
 );
 /
 
-
-CREATE TABLE PAYMENT 
-(
-    PAYMENT_ID NUMBER(10,0) DEFAULT PAYMENT_ID_SEQ.NEXTVAL NOT NULL ENABLE, 
-    ORDER_ID NUMBER(10,0) NOT NULL ENABLE, 
-    PAYMENT_MODE VARCHAR2(50),
-    PAYMENT_DATE DATE, 
-    PAYMENT_STATUS VARCHAR2(50),
-    CONSTRAINT PAYMENT_PK PRIMARY KEY (PAYMENT_ID),
-    CONSTRAINT PAYMENT_ORDER_FK FOREIGN KEY (ORDER_ID) REFERENCES ORDERTB (ORDER_ID) ON DELETE CASCADE ENABLE
+CREATE TABLE payment (
+    payment_id     NUMBER(10, 0) DEFAULT payment_id_seq.NEXTVAL
+        NOT NULL ENABLE,
+    order_id       NUMBER(10, 0)
+        NOT NULL ENABLE,
+    payment_mode   VARCHAR2(50),
+    payment_date   DATE,
+    payment_status VARCHAR2(50),
+    CONSTRAINT payment_pk PRIMARY KEY ( payment_id ),
+    CONSTRAINT payment_order_fk FOREIGN KEY ( order_id )
+        REFERENCES ordertb ( order_id )
+            ON DELETE CASCADE
+    ENABLE
 );
 /
 
-create or replace PROCEDURE add_role (
+-- Procedures
+CREATE OR REPLACE PROCEDURE add_role (
     in_role_name VARCHAR2
 ) AS
     v_exists VARCHAR(5);
@@ -168,8 +217,8 @@ CREATE OR REPLACE PROCEDURE add_user (
     in_username VARCHAR2,
     in_frstname VARCHAR2,
     in_lastname VARCHAR2,
-    in_hashPwd VARCHAR2,
-    in_role_id NUMBER
+    in_hashpwd  VARCHAR2,
+    in_role_id  NUMBER
 ) AS
     v_exists VARCHAR(5);
     e_exists EXCEPTION;
@@ -184,20 +233,21 @@ BEGIN
         username = in_username;
 
     IF ( v_exists = 'Y' ) THEN
-        RAISE_APPLICATION_ERROR(-20001, e_user_exists_msg);
+        raise_application_error(-20001, e_user_exists_msg);
     END IF;
 EXCEPTION
     WHEN no_data_found THEN
-        INSERT INTO usertb (username,
-                firstname,
-                lastname,
-                password,
-                role_id) 
-        VALUES (
+        INSERT INTO usertb (
+            username,
+            firstname,
+            lastname,
+            password,
+            role_id
+        ) VALUES (
             in_username,
             in_frstname,
             in_lastname,
-            in_hashPwd,
+            in_hashpwd,
             in_role_id
         );
 
@@ -208,16 +258,16 @@ END add_user;
 
 CREATE OR REPLACE PROCEDURE add_stock (
     in_product_name     VARCHAR2,
-	in_product_quantity NUMBER,
-	in_product_cost     NUMBER,
+    in_product_quantity NUMBER,
+    in_product_cost     NUMBER,
     in_description      VARCHAR2,
-    out_result OUT NUMBER
+    out_result          OUT NUMBER
 ) AS
-	v_exists VARCHAR(5);
+    v_exists          VARCHAR(5);
     e_exists EXCEPTION;
     e_prod_exists_msg VARCHAR2(100) := 'Product already exists';
 BEGIN
-SELECT
+    SELECT
         'Y'
     INTO v_exists
     FROM
@@ -226,43 +276,46 @@ SELECT
         product = in_product_name;
 
     IF ( v_exists = 'Y' ) THEN
-        RAISE_APPLICATION_ERROR(-20002, e_prod_exists_msg);
+        raise_application_error(-20002, e_prod_exists_msg);
     END IF;
 EXCEPTION
     WHEN no_data_found THEN
         INSERT INTO stock VALUES (
             in_product_name,
-			in_product_quantity,
-			in_product_cost,
+            in_product_quantity,
+            in_product_cost,
             in_description
         );
-        out_result:=1;
-		COMMIT;
+
+        out_result := 1;
+        COMMIT;
         dbms_output.put_line('Product added in stock');
-        
 END add_stock;
 /
 
 CREATE OR REPLACE PROCEDURE add_cart (
-    in_product_name  VARCHAR2,
-    in_quantity NUMBER,
-	in_tot_price NUMBER,
-	in_username VARCHAR2,
-    out_result OUT NUMBER
+    in_product_name VARCHAR2,
+    in_quantity     NUMBER,
+    in_tot_price    NUMBER,
+    in_username     VARCHAR2,
+    out_result      OUT NUMBER
 ) IS
 BEGIN
+    INSERT INTO cart (
+        product,
+        quantity,
+        price,
+        username
+    ) VALUES (
+        in_product_name,
+        in_quantity,
+        in_tot_price,
+        in_username
+    );
 
-	INSERT INTO cart (product, quantity, price, username)
-	VALUES (
-            in_product_name,
-			in_quantity,
-            in_tot_price,
-			in_username
-        );
-        
-    out_result:=1;
-	dbms_output.put_line('Product added to cart');
-	COMMIT;
+    out_result := 1;
+    dbms_output.put_line('Product added to cart');
+    COMMIT;
 END add_cart;
 /
 
@@ -270,93 +323,99 @@ CREATE OR REPLACE PROCEDURE add_payment (
     in_order_id       NUMBER,
     in_payment_mode   VARCHAR2,
     in_payment_status VARCHAR2,
-    out_result OUT NUMBER
+    out_result        OUT NUMBER
 ) IS
 BEGIN
+    INSERT INTO payment VALUES (
+        payment_id_seq.NEXTVAL,
+        in_order_id,
+        in_payment_mode,
+        sysdate,
+        in_payment_status
+    );
 
-	INSERT INTO payment VALUES (
-		payment_id_seq.NEXTVAL,
-		in_order_id,
-		in_payment_mode,
-		sysdate,
-		in_payment_status
-            );
-    out_result:= 1;
+    out_result := 1;
 END add_payment;
 /
 
 CREATE OR REPLACE PROCEDURE add_order (
-	in_username VARCHAR2,
-	in_order_qty NUMBER,
-	in_order_status VARCHAR2,
-    out_result OUT NUMBER
+    in_username     VARCHAR2,
+    in_order_qty    NUMBER,
+    in_order_status VARCHAR2,
+    out_result      OUT NUMBER
 ) AS
 BEGIN
-        INSERT INTO ordertb (
-			order_id,
-            username,
-            order_qty,
-            order_status,
-			order_date
-        ) VALUES (
-            order_id_seq.NEXTVAL,
-            in_username,
-            in_order_qty,
-			in_order_status,
-			sysdate	
-        );
-        
-        out_result:=1;
+    INSERT INTO ordertb (
+        order_id,
+        username,
+        order_qty,
+        order_status,
+        order_date
+    ) VALUES (
+        order_id_seq.NEXTVAL,
+        in_username,
+        in_order_qty,
+        in_order_status,
+        sysdate
+    );
 
-        dbms_output.put_line('Order Added');
-        COMMIT;
+    out_result := 1;
+    dbms_output.put_line('Order Added');
+    COMMIT;
 END add_order;
 /
 
-create or replace PROCEDURE payment_checkout(p_username IN VARCHAR2, currentcart OUT NUMBER) 
-AS
+CREATE OR REPLACE PROCEDURE payment_checkout (
+    p_username  IN VARCHAR2,
+    currentcart OUT NUMBER
+) AS
     v_order_id NUMBER;
 BEGIN
-    -- Retrieve the pending order_id for the specified user
-    SELECT ORDER_ID 
-    INTO v_order_id 
-    FROM ORDERTB 
-    WHERE USERNAME = p_username 
-	AND ORDER_STATUS = 'PENDING'
-    AND ROWNUM = 1; -- Ensure only one row is fetched
+    SELECT
+        order_id
+    INTO v_order_id
+    FROM
+        ordertb
+    WHERE
+            username = p_username
+        AND order_status = 'PENDING'
+        AND ROWNUM = 1;
 
-    --UPDATE PAYMENT STATUS
-    UPDATE PAYMENT
-    SET PAYMENT_STATUS='COMPLETED'
-    WHERE ORDER_ID = v_order_id;
+    UPDATE payment
+    SET
+        payment_status = 'COMPLETED'
+    WHERE
+        order_id = v_order_id;
 
-    --Update the ordertb
-    UPDATE ORDERTB
-    SET order_status = 'COMPLETED',
-        order_date = SYSDATE
-    WHERE order_id = v_order_id;
+    UPDATE ordertb
+    SET
+        order_status = 'COMPLETED',
+        order_date = sysdate
+    WHERE
+        order_id = v_order_id;
 
     UPDATE cart
-    SET ORDER_ID = v_order_id,
-        CART_STATUS = 'PURCHASED'
-    WHERE CART_STATUS = 'RESERVED'
-    AND USERNAME = p_username;
+    SET
+        order_id = v_order_id,
+        cart_status = 'PURCHASED'
+    WHERE
+            cart_status = 'RESERVED'
+        AND username = p_username;
 
-	SELECT COUNT(*) 
-	INTO currentcart 
-	FROM cart 
-	where order_id is null
-    and username=p_username;
+    SELECT
+        COUNT(*)
+    INTO currentcart
+    FROM
+        cart
+    WHERE
+        order_id IS NULL
+        AND username = p_username;
 
-    -- Commit the transaction
     COMMIT;
-
-    -- Optionally, handle exceptions or logging here
 EXCEPTION
     WHEN OTHERS THEN
-        -- Handle exceptions appropriately (e.g., logging, rollback, etc.)
         ROLLBACK;
-        DBMS_OUTPUT.PUT_LINE('Error processing cart: ' || SQLERRM);
+        dbms_output.put_line('Error processing cart: ' || sqlerrm);
         RAISE;
 END payment_checkout;
 /
@@ -364,13 +423,12 @@ END payment_checkout;
 DECLARE
     out_result NUMBER;
 BEGIN
-    --Inserting dummy records
+    --Initializing with dummy records
     add_role('Admin');
     add_role('Customer');
     add_user('jdoe', 'John', 'Doe', '$2a$12$xZfNYVYeduMjK0gJOlxM6u8kfpc55L7rtCU7AxLpeI/OpS3DYmmDy', 1);
-    
     add_stock('Tylenol', 100, 8.99, 'Pain reliever and fever reducer', out_result);
-    add_stock('Advil', 150, 10.49, 'Pain reliever and anti-inflammatory',out_result);
+    add_stock('Advil', 150, 10.49, 'Pain reliever and anti-inflammatory', out_result);
     add_stock('Aspirin', 200, 5.99, 'Pain reliever and anti-inflammatory', out_result);
     add_stock('Benadryl', 75, 7.49, 'Allergy relief medication', out_result);
     add_stock('Claritin', 80, 12.99, 'Non-drowsy allergy relief', out_result);
@@ -399,5 +457,4 @@ BEGIN
     add_stock('Polysporin', 90, 6.99, 'Antibiotic ointment', out_result);
     add_stock('Calamine Lotion', 95, 4.49, 'Anti-itch lotion', out_result);
     add_stock('Lamisil', 100, 12.99, 'Antifungal cream', out_result);
-
 END;
