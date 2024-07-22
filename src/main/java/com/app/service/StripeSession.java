@@ -65,7 +65,7 @@ public class StripeSession extends HttpServlet {
 			
 			if (rs !=null) {
 				int orderQty = dao.getCartCount(username);
-				int orderPrice = dao.getCheckoutPrice(username);
+				int orderPrice = dao.paymentDetails(username);
 				String orderStatus = "PENDING";
 				dao.createOrder(username, orderQty, orderStatus, currentDate);
 				dao.proceedPayment(currentDate, username);

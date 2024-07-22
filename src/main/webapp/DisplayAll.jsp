@@ -180,5 +180,14 @@
 							</div>
 						</div>
 	<script src="./js/displayall.js"></script>
+	<%
+	if (session.getAttribute("productexists") != null) {
+		System.out.println("Inside home:"+session.getAttribute("productexists"));
+		session.removeAttribute("productexists");
+	%>
+	<script src="./js/home.js"></script>
+	<%
+	}
+	%>
 </body>
 </html>

@@ -56,6 +56,7 @@ public class Register extends HttpServlet {
 						response.sendRedirect("Login.jsp");
 					} else {
 						session.setAttribute("signuperror", true);
+						response.sendRedirect("Register.jsp");
 
 					}
 				}
@@ -105,18 +106,16 @@ public class Register extends HttpServlet {
 					response.sendRedirect("ManageUsers.jsp");
 				} else {
 					session.setAttribute("signuperror", true);
+					response.sendRedirect("Register.jsp");
 
 				}
 
 			} catch (ClassNotFoundException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
 			}
 		}
-		
+
 		else if (action.equals("delete")) {
 			username = request.getParameter("username");
 			try {

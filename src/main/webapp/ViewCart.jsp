@@ -27,19 +27,15 @@
 	if (token == null)
 		response.sendRedirect("Login.jsp");
 	else {
-		String username = JWTUtil.getUsername(token);
-		int total = 0;
+		String username = JWTUtil.getUsername(token);	
 		int shipping = 0;
 		int stock = 1;
 		DAOImpl dao = DAOImpl.getInstance();
 		ResultSet rs = dao.viewcart(username);
 		int rowCount = dao.getCartCount(username);
-		ResultSet rs1 = dao.paymentDetails(username);
-		if (rs1.next()) {
-			total = rs1.getInt(1);
-			if (total > 0)
-		shipping = 50;
-		}
+		int total = dao.paymentDetails(username);
+		if (total>0)
+			shipping = 50;
 		cartcount = "" + session.getAttribute("cartcount");
 	%>
 	<section class="mt-3">
@@ -58,8 +54,7 @@
 					</div>
 					<%
 					while (rs.next()) {
-						ResultSet rs2 = dao.paymentDetails(username);
-						rs2 = dao.display(rs.getString(1));
+						ResultSet rs2 = dao.display(rs.getString(1));
 						if (rs2.next()) {
 							stock = rs2.getInt(2);
 						}

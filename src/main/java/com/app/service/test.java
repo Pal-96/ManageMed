@@ -50,7 +50,7 @@ public class test extends HttpServlet {
 
 					tokenCookie = new Cookie("token", token);
 					tokenCookie.setHttpOnly(true);
-					tokenCookie.setMaxAge(86400); // 24 hours
+					tokenCookie.setMaxAge(1800); // 30 minutes
 					response.addCookie(tokenCookie);
 					response.sendRedirect("Home.jsp");
 				}

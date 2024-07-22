@@ -19,8 +19,8 @@
 	int result = dao.proceedSale(username);
 	%>
 	<section>
-		<p>Your payment is successful. We appreciate your business! If you
-			have any questions, please email below.</p>
+		<p>Hooray! Payment successful. Thank you for shopping with ManageMed!
+		We would be happy to hear from you.</p>
 		<p>
 			<a href="mailto:orders@example.com">pal.sayantika26@gmail.com</a>
 		</p>

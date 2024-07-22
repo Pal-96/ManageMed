@@ -22,24 +22,21 @@ public class AddRemoveImpl extends HttpServlet {
 	private int count;
 	private int unitprice;
 	private String description;
-	HttpSession session;
+	private HttpSession session;
 	private Product product;
+	private DAOImpl dao;
 
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		session = request.getSession();
-
+		dao = DAOImpl.getInstance();
 		productTitle = request.getParameter("product");
+		action = request.getParameter("action");
 		if (request.getParameter("quantity") != null && request.getParameter("unitprice") != null
 				&& request.getParameter("description") != null) {
 			quantity = Integer.parseInt(request.getParameter("quantity"));
 			unitprice = Integer.parseInt(request.getParameter("unitprice"));
 			description = request.getParameter("description");
 		}
-		action = request.getParameter("action");
-		System.out.println("Action | Quantity: "+ action + " |"+ quantity);
-
-		DAOImpl dao = DAOImpl.getInstance();
 		try {
 			session.setAttribute("action", action);
 			if (action.equals("add") && quantity > 0) {
@@ -48,12 +45,13 @@ public class AddRemoveImpl extends HttpServlet {
 				product.setQuantity(quantity);
 				product.setUnitprice(unitprice);
 				product.setDescription(description);
-				count = dao.insert(product);
-				System.out.println("Inside add");
+				int result = dao.insert(product);
+				System.out.println("Servlet result:"+result);
 				session.setAttribute("quantity", quantity);
+				if (result==0)
+					session.setAttribute("productexists", result);
 				response.setContentType("text/html");
                 response.getWriter().write("<script>window.parent.loadContent('DisplayAll.jsp');</script>");
-//				response.sendRedirect("DisplayAll.jsp");
 			}
 
 			else if (action.equals("edit") && quantity > 0) {
@@ -64,16 +62,13 @@ public class AddRemoveImpl extends HttpServlet {
 				response.sendRedirect("DisplayAll.jsp");
 			}
 
-			else if (action.equals("remove") && quantity > 0) {
-				count = dao.remove(productTitle, quantity);
-				System.out.println(count);
-				if (count == 0) {
-					quantity = (Integer) null;
-				}
-				session.setAttribute("quantity", quantity);
-
-				response.sendRedirect("DisplayAll.jsp");
-			}
+			/*
+			 * else if (action.equals("remove") && quantity > 0) { count =
+			 * dao.remove(productTitle, quantity); System.out.println(count); if (count ==
+			 * 0) { quantity = (Integer) null; } session.setAttribute("quantity", quantity);
+			 * 
+			 * response.sendRedirect("DisplayAll.jsp"); }
+			 */
 
 			else if (action.equals("deletestock")) {
 				System.out.println("Inside delete stock");

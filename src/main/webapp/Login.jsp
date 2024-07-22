@@ -64,7 +64,6 @@
 	</div>
 	<%
 	if (session.getAttribute("invalidcreds") != null) {
-		out.println("Invalid credentials");
 		session.removeAttribute("invalidcreds");
 	%>
 	<script src="./js/login.js"></script>
