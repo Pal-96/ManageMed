@@ -77,9 +77,9 @@ public class StripeSession extends HttpServlet {
 					.setSuccessUrl(domainUrl + "/success.jsp")
 					.setCancelUrl(domainUrl + "/cancel.jsp");
 			while (rs.next()) {
-				String productName = rs.getString(1);
-				int quantity = rs.getInt(2);
-				long productPrice = rs.getInt(3);
+				String productName = rs.getString(2);
+				int quantity = rs.getInt(3);
+				long productPrice = rs.getInt(4);
 				long unitprice = productPrice/quantity;
 
 				paramsBuilder.addLineItem(SessionCreateParams.LineItem.builder()

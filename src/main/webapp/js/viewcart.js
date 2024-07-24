@@ -58,3 +58,30 @@ function updateDropdown(element) {
 
 	// Here you can also send the updated quantity to the server if needed
 }
+
+function handleCheckOut() {
+	console.log("Inside handle checkout");
+	let timeout_id = setTimeout(function() {
+                // After 1 minutes, check the payment status
+                if (parseInt(localStorage.getItem("timeout_id"),10))
+                {
+					checkPaymentStatus();	
+				}
+            }, 60000); // 5 minutes in milliseconds
+	console.log(timeout_id);
+	localStorage.setItem("timeout_id",timeout_id);
+}
+
+function checkPaymentStatus() {
+	console.log("Inside check payment status");
+	fetch('checkpaymentstatus')
+	.then(window.open('PaymentError.jsp', '_blank'));
+	localStorage.removeItem("timeout_id");
+}
+
+function handleCancel() {
+	let timeout_id = parseInt(localStorage.getItem("timeout_id"),10);
+	console.log(timeout_id);
+	clearTimeout(timeout_id);
+	localStorage.removeItem("timeout_id");
+}

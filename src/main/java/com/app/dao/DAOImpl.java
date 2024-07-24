@@ -206,9 +206,10 @@ public class DAOImpl {
 		ResultSet rs = st.executeQuery();
 		if (rs.next()) {
 			int order_id = rs.getInt(1);
-			String query2 = "select payment_id from payment where order_id = ?";
+			String query2 = "select payment_id from payment where order_id = ? and payment_status=?";
 			st = con.prepareStatement(query2);
 			st.setInt(1, order_id);
+			st.setString(2, "PENDING");
 			if (st.executeQuery().next()) {
 				String query4 = "update payment set payment_date=? where order_id=?";
 				st = con.prepareStatement(query4);
@@ -460,5 +461,38 @@ public class DAOImpl {
 		st.setString(1, username);
 		return st.executeQuery();
 	}
+	
+	public int getPaymentStatus(String username) throws SQLException {
+		int payment_id = 0;
+		String query1 = "select order_id from ordertb where username=? and order_status=?";
+		st = con.prepareStatement(query1);
+		st.setString(1, username);
+		st.setString(2, "PENDING");
+		ResultSet rs1 = st.executeQuery();
+		if (rs1.next()) {
+			int order_id = rs1.getInt(1);
+			String query2 = "select payment_id from payment where order_id=? and payment_status = ?";
+			st = con.prepareStatement(query2);
+			st.setInt(1, order_id);
+			st.setString(2, "PENDING");
+			ResultSet rs = st.executeQuery();
+			if(rs.next()) {
+				payment_id = rs.getInt(1);
+			}
+		}
+		 
+		return payment_id;
+	}
+	
+	public void setPaymentStatus(String status, int payment_id) throws SQLException {
+		System.out.println("Inside set payment status");
+		String query = "update payment set payment_status=? where payment_id=?"; 
+		st = con.prepareStatement(query);
+		st.setString(1, status);
+		st.setInt(2, payment_id);
+		st.executeUpdate();
+		
+	}
+	
 
 }

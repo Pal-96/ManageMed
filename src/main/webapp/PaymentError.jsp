@@ -19,11 +19,11 @@
 	%>
 	
 <section>
-    <p>Forgot to add something to your cart? Shop around then come back to pay!</p>
+    <p>Session Timed Out. Please try again!</p>
     <form action="Home.jsp" method="post">
-			<button type="submit" onclick="handleCancel()">Home</button>
+			<button type="submit">Home</button>
 		</form>
   </section>
-<script src="./js/viewcart.js"></script>
+
 </body>
 </html>

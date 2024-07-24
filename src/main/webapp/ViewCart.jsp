@@ -54,7 +54,7 @@
 					</div>
 					<%
 					while (rs.next()) {
-						ResultSet rs2 = dao.display(rs.getString(1));
+						ResultSet rs2 = dao.display(rs.getString(2));
 						if (rs2.next()) {
 							stock = rs2.getInt(2);
 						}
@@ -63,7 +63,7 @@
 						<div
 							class="row d-flex align-items-center text-start text-md-center">
 							<div class="col-12 col-md-5 text-center product">
-								<b><%=rs.getString(1)%></b>
+								<b><%=rs.getString(2)%></b>
 							</div>
 							<div class="col-12 col-md-7 mt-4 mt-md-0 text-center">
 								<div class="row align-items-center">
@@ -73,7 +73,7 @@
 												<button class="btn btn-secondary dropdown-toggle"
 													type="button" data-bs-toggle="dropdown"
 													data-bs-auto-close="true" aria-expanded="false">
-													<%=rs.getInt(2)%></button>
+													<%=rs.getInt(3)%></button>
 												<ul class="dropdown-menu">
 													<%
 													for (int i = 1; i <= stock; i++) {
@@ -91,7 +91,7 @@
 										<div class="row">
 											<div class="col-6 d-md-none text-muted">Total price</div>
 											<div class="col-6 col-md-12 text-end text-md-center">
-												<b>$<%=rs.getInt(3)%></b>
+												<b>$<%=rs.getInt(4)%></b>
 											</div>
 										</div>
 									</div>
@@ -154,7 +154,7 @@
 								<form action="create-checkout-session" method="POST"
 									target="_blank" class="text-end">
 									<button type="submit" class="checkout btn btn-warning"
-										name="shipping" value=<%=shipping%>>Checkout</button>
+										name="shipping" value=<%=shipping%> onclick="handleCheckOut()">Checkout</button>
 								</form>
 							</div>
 						</div>
