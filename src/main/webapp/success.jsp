@@ -28,5 +28,6 @@
 			<button type="submit">Home</button>
 		</form>
 	</section>
+	<script src="./js/viewcart.js"></script>
 </body>
 </html>

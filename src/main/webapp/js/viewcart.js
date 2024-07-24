@@ -1,3 +1,4 @@
+localStorage.removeItem("timeout_id");
 function handleRemoveCart(button) {
 	let item = button.closest('.item-of-cart');
 	let product = item.querySelector('.product').innerText;
