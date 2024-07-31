@@ -9,6 +9,7 @@ https://drive.google.com/file/d/1TPxxLFk1WDfCEUjmIWoAjzObCjljO9Dd/view?usp=shari
 - Shopping Cart Management: Add products to the shopping cart and manage the cart's contents.
 - Concurrent Checkout: Multiple users can check out and purchase items simultaneously with real-time access to stock.
 - Secure Payment: Seamlessly complete purchases with secure payment option.
+- Real-time Feedback: Users can email candid feedback or concerns to the application admin.
 
 ## Admin Features:
 - Stock Management: Administrators can add, edit, remove, and view stock levels.
