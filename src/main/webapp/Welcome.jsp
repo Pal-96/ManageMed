@@ -4,6 +4,8 @@
 <%@ page import="com.app.security.*"%>
 <%@ page import="com.app.dao.*"%>
 <%@ page import="java.sql.*"%>
+<%@ page import="java.util.Properties"%>
+<%@ page import="java.io.InputStream"%>
 
 <!DOCTYPE html>
 <html>
@@ -18,22 +20,42 @@
 <link rel="stylesheet" href="./assets/css/custom.css"></link>
 <script
 	src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+
+<script
+	src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+<script type="text/javascript"
+	src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js">
+</script>
 </head>
 <body>
 	<%
+	InputStream input = getClass().getClassLoader().getResourceAsStream("db.properties");
+	Properties properties = new Properties();
+	properties.load(input);
+	String publicKey = properties.getProperty("email.publicKey");
 	String token = test.getCookie(request);
+	String username = null;
+	String name = null;
+	DAOImpl dao;
 	if (token == null) {
 	%>
 	<jsp:include page="nav-bar-before-login.html" />
 	<%
 	} else {
+	dao = DAOImpl.getInstance();
+	username = JWTUtil.getUsername(token);
+	ResultSet rs2 = dao.getUser(username);
+	if (rs2.next()) {
+		name = rs2.getString(1) + " " + rs2.getString(2);
+	}
 	%>
 	<jsp:include page="navbar-after-login.html" />
 	<%
 	}
 	%>
 	<%
-	DAOImpl dao = DAOImpl.getInstance();
+	dao = DAOImpl.getInstance();
 	int customers = 0;
 	int totalSales = 0;
 	int product = 0;
@@ -51,7 +73,7 @@
 	}
 	%>
 	<div>
-		<section class="pt-6 pt-md-11">
+		<section class="pt-6 pt-md-11" id="section1">
 			<br /> <br /> <br />
 			<div class="container">
 				<div class="row align-items-center">
@@ -79,7 +101,7 @@
 				</div>
 			</div>
 		</section>
-		<section class="cmt-7">
+		<section class="cmt-7" id="section2">
 			<h1 class="display-3">
 				<h3 class="display-4 text-center">What we deliver</h3>
 			</h1>
@@ -249,7 +271,7 @@
 				</button>
 			</div>
 		</section>
-		<section class="cmt-7">
+		<section class="cmt-7" id="section3">
 			<h1 class="display-3">
 				<h3 class="display-4 text-center">Our Impact</h3>
 			</h1>
@@ -257,7 +279,7 @@
 				<div class="container">
 					<div class="row g-3 justify-content-center">
 						<!-- Counter item -->
-						<div class="col-sm-6 col-xl-3">
+						<div class="col-sm-6 col-xl-3" id="activeusers">
 							<div
 								class="d-flex justify-content-center align-items-center p-4 bg-warning border border-info bg-opacity-20 rounded-3">
 								<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40"
@@ -270,7 +292,7 @@
 									<div class="d-flex">
 										<h5 class="purecounter mb-0 fw-bold"
 											data-purecounter-start="0" data-purecounter-end="10"
-											data-purecounter-delay="200" data-purecounter-duration="0"><%=customers %></h5>
+											data-purecounter-delay="200" data-purecounter-duration="0"><%=customers%></h5>
 										<span class="mb-0 h5">+</span>
 									</div>
 									<p class="mb-0">Active Users</p>
@@ -278,7 +300,7 @@
 							</div>
 						</div>
 						<!-- Counter item -->
-						<div class="col-sm-6 col-xl-3">
+						<div class="col-sm-6 col-xl-3" id="totalsales">
 							<div
 								class="d-flex justify-content-center align-items-center p-4 bg-warning border border-info bg-opacity-20 rounded-3">
 								<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40"
@@ -292,7 +314,7 @@
 									<div class="d-flex">
 										<h5 class="purecounter mb-0 fw-bold"
 											data-purecounter-start="0" data-purecounter-end="200"
-											data-purecounter-delay="200" data-purecounter-duration="0"><%=totalSales %></h5>
+											data-purecounter-delay="200" data-purecounter-duration="0"><%=totalSales%></h5>
 										<span class="mb-0 h5">+</span>
 									</div>
 									<p class="mb-0">Total Sales</p>
@@ -300,7 +322,7 @@
 							</div>
 						</div>
 						<!-- Counter item -->
-						<div class="col-sm-6 col-xl-3">
+						<div class="col-sm-6 col-xl-3" id="products">
 							<div
 								class="d-flex justify-content-center align-items-center p-4 bg-warning border border-info bg-opacity-20 rounded-3">
 								<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40"
@@ -312,7 +334,7 @@
 									<div class="d-flex">
 										<h5 class="purecounter mb-0 fw-bold"
 											data-purecounter-start="0" data-purecounter-end="60"
-											data-purecounter-delay="200" data-purecounter-duration="0"><%=product %></h5>
+											data-purecounter-delay="200" data-purecounter-duration="0"><%=product%></h5>
 										<span class="mb-0 h5">+</span>
 									</div>
 									<p class="mb-0">Products</p>
@@ -323,6 +345,52 @@
 				</div>
 			</section>
 		</section>
+		<section class="cmt-7 mt-5 pl-5 pr-5 border rounded bg-feedback"
+			id="section4">
+			<h1 class="display-3">
+				<h3 class="display-4 text-center">Share your thoughts</h3>
+			</h1>
+			<section class="mt-3">
+				<form class="needs-validation was-validated" novalidate>
+					<div class="mb-3">
+						<label for="feedback" class="form-label">Feedback</label>
+						<textarea class="form-control" id="feedback"
+							placeholder="Share your thoughts" name="feedback" required></textarea>
+						<div class="invalid-feedback">Please enter a message in the
+							text area.</div>
+					</div>
+					<div class="position-relative">
+						<label for="email" class="form-label">Email</label> <input
+							type="email" class="form-control" id="email"
+							placeholder="Enter your email" name="cust-email" required>
+						<div class="valid-tooltip">Looks good!</div>
+					</div>
+					<input id="name" name="name" value="<%=name%>" hidden="true">
+					<div class="col-12 mb-5 mt-4">
+						<button class="btn btn-primary" onclick="sendEmail()"
+							type="submit">
+							Send
+							<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+								fill="currentColor" class="bi bi-send-check" viewBox="0 0 16 16">
+  <path
+									d="M15.964.686a.5.5 0 0 0-.65-.65L.767 5.855a.75.75 0 0 0-.124 1.329l4.995 3.178 1.531 2.406a.5.5 0 0 0 .844-.536L6.637 10.07l7.494-7.494-1.895 4.738a.5.5 0 1 0 .928.372zm-2.54 1.183L5.93 9.363 1.591 6.602z" />
+  <path
+									d="M16 12.5a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0m-1.993-1.679a.5.5 0 0 0-.686.172l-1.17 1.95-.547-.547a.5.5 0 0 0-.708.708l.774.773a.75.75 0 0 0 1.174-.144l1.335-2.226a.5.5 0 0 0-.172-.686" />
+</svg>
+						</button>
+					</div>
+				</form>
+			</section>
+		</section>
+		<script type="text/javascript">
+   (function(){
+      emailjs.init({
+        publicKey: "<%=publicKey%>",
+				});
+			})();
+		</script>
+		<script src="./js/email.js"></script>
 		<jsp:include page="footer.html" />
+		<script src="./js/script.js"></script>
 </body>
 </html>

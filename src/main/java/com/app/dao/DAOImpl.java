@@ -494,5 +494,12 @@ public class DAOImpl {
 		
 	}
 	
+	public ResultSet getUser(String username) throws SQLException {
+		String query = "select firstname, lastname from usertb where username=?"; 
+		st = con.prepareStatement(query);
+		st.setString(1, username);
+		return st.executeQuery();
+	}
+	
 
 }

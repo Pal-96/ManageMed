@@ -108,3 +108,15 @@ padding-left: 10in;
 .welcomeimg {
 	height: 360px;
 }
+
+.pl-5 {
+	padding-left: 15rem;
+}
+
+.pr-5 {
+	padding-right: 15rem;
+}
+
+.bg-feedback {
+	background-color:#62b5e859;
+}
